@@ -292,7 +292,7 @@ const growthRates = {
    ========================================================= */
 
 function formatSalary(value) {
-    return "$" + Math.round(value).toLocaleString();
+    return "$" + Math.round(Number(value) || 0).toLocaleString();
 }
 
 
@@ -305,7 +305,17 @@ function projectedSalary(career, year) {
     const yearsFrom2026 = year - 2026;
     const rate = getGrowthRate(career);
 
-    return career.salary * Math.pow(1 + rate, yearsFrom2026);
+    return Number(career.salary) * Math.pow(1 + rate, yearsFrom2026);
+}
+
+
+function escapeHTML(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 
@@ -315,14 +325,15 @@ function projectedSalary(career, year) {
 
 function displayCareers(list = currentCareers) {
 
-    const container = document.getElementById("careerList");
+    const container =
+        document.getElementById("careerList");
 
     if (!container) {
         console.warn("careerList was not found.");
         return;
     }
 
-    if (list.length === 0) {
+    if (!list.length) {
 
         container.innerHTML = `
             <div class="empty-state">
@@ -334,17 +345,19 @@ function displayCareers(list = currentCareers) {
         return;
     }
 
-
     container.innerHTML = list.map((career, index) => {
 
-        const isSelected = selectedCareers.some(
-            selected => selected.name === career.name
-        );
+        const isSelected =
+            selectedCareers.some(
+                selected => selected.name === career.name
+            );
 
         return `
             <div class="career-card ${isSelected ? "selected" : ""}">
-                
-                <h3>${escapeHTML(career.name)}</h3>
+
+                <h3>
+                    ${escapeHTML(career.name)}
+                </h3>
 
                 <span class="career-category">
                     ${escapeHTML(career.category)}
@@ -362,27 +375,15 @@ function displayCareers(list = currentCareers) {
                     class="compare-button"
                     onclick="toggleCareer(${index})"
                 >
-                    ${isSelected ? "✓ Added to comparison" : "+ Compare"}
+                    ${isSelected
+                        ? "✓ Added to comparison"
+                        : "+ Compare"}
                 </button>
 
             </div>
         `;
+
     }).join("");
-}
-
-
-/* =========================================================
-   SAFE HTML HELPER
-   ========================================================= */
-
-function escapeHTML(value) {
-
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
 }
 
 
@@ -392,34 +393,39 @@ function escapeHTML(value) {
 
 function toggleCareer(index) {
 
-    const career = currentCareers[index];
+    const career =
+        currentCareers[index];
 
     if (!career) {
         return;
     }
 
-
-    const existingIndex = selectedCareers.findIndex(
-        selected => selected.name === career.name
-    );
-
+    const existingIndex =
+        selectedCareers.findIndex(
+            selected =>
+                selected.name === career.name
+        );
 
     if (existingIndex !== -1) {
 
-        selectedCareers.splice(existingIndex, 1);
+        selectedCareers.splice(
+            existingIndex,
+            1
+        );
 
     } else {
 
         if (selectedCareers.length >= 5) {
 
-            alert("You can compare up to 5 careers at a time.");
+            alert(
+                "You can compare up to 5 careers at a time."
+            );
 
             return;
         }
 
         selectedCareers.push(career);
     }
-
 
     displayCareers(currentCareers);
     updateComparison();
@@ -433,29 +439,7 @@ function toggleCareer(index) {
 
 function searchCareers() {
 
-    const searchInput = document.getElementById("careerSearch");
-
-    if (!searchInput) {
-        return;
-    }
-
-    const query = searchInput.value
-        .trim()
-        .toLowerCase();
-
-
-    currentCareers = careers.filter(career => {
-
-        return (
-            career.name.toLowerCase().includes(query) ||
-            career.category.toLowerCase().includes(query)
-        );
-
-    });
-
-
     applyActiveCategoryAndSort();
-
     updateCareerCount();
 }
 
@@ -466,20 +450,23 @@ function searchCareers() {
 
 function buildCategoryFilter() {
 
-    const filter = document.getElementById("categoryFilter");
+    const filter =
+        document.getElementById("categoryFilter");
 
     if (!filter) {
         return;
     }
 
-
-    const categories = [
-        ...new Set(careers.map(career => career.category))
-    ].sort();
-
+    const categories =
+        [...new Set(
+            careers.map(career => career.category)
+        )].sort();
 
     filter.innerHTML = `
-        <option value="all">All categories</option>
+        <option value="all">
+            All categories
+        </option>
+
         ${categories.map(category => `
             <option value="${escapeHTML(category)}">
                 ${escapeHTML(category)}
@@ -490,6 +477,7 @@ function buildCategoryFilter() {
 
 
 function applyCategoryFilter() {
+
     applyActiveCategoryAndSort();
     updateCareerCount();
 }
@@ -497,58 +485,69 @@ function applyCategoryFilter() {
 
 function applyActiveCategoryAndSort() {
 
-    const searchInput = document.getElementById("careerSearch");
-    const categoryFilter = document.getElementById("categoryFilter");
-    const sortFilter = document.getElementById("sortFilter");
+    const searchInput =
+        document.getElementById("careerSearch");
 
+    const categoryFilter =
+        document.getElementById("categoryFilter");
 
-    const query = searchInput
-        ? searchInput.value.trim().toLowerCase()
-        : "";
+    const sortFilter =
+        document.getElementById("sortFilter");
 
+    const query =
+        searchInput
+            ? searchInput.value.trim().toLowerCase()
+            : "";
 
-    const category = categoryFilter
-        ? categoryFilter.value
-        : "all";
+    const category =
+        categoryFilter
+            ? categoryFilter.value
+            : "all";
 
+    let filtered =
+        careers.filter(career => {
 
-    let filtered = careers.filter(career => {
+            const matchesSearch =
+                !query ||
+                career.name
+                    .toLowerCase()
+                    .includes(query) ||
+                career.category
+                    .toLowerCase()
+                    .includes(query);
 
-        const matchesSearch =
-            !query ||
-            career.name.toLowerCase().includes(query) ||
-            career.category.toLowerCase().includes(query);
+            const matchesCategory =
+                category === "all" ||
+                career.category === category;
 
-
-        const matchesCategory =
-            category === "all" ||
-            career.category === category;
-
-
-        return matchesSearch && matchesCategory;
-    });
-
+            return matchesSearch && matchesCategory;
+        });
 
     if (sortFilter) {
 
-        const sort = sortFilter.value;
+        const sort =
+            sortFilter.value;
 
         if (sort === "salary-high") {
 
-            filtered.sort((a, b) => b.salary - a.salary);
+            filtered.sort(
+                (a, b) => b.salary - a.salary
+            );
 
         } else if (sort === "salary-low") {
 
-            filtered.sort((a, b) => a.salary - b.salary);
+            filtered.sort(
+                (a, b) => a.salary - b.salary
+            );
 
         } else if (sort === "name") {
 
-            filtered.sort((a, b) =>
-                a.name.localeCompare(b.name)
+            filtered.sort(
+                (a, b) =>
+                    a.name.localeCompare(b.name)
             );
         }
     }
-
 
     currentCareers = filtered;
 
@@ -569,14 +568,19 @@ function sortCareers() {
 
 function updateCareerCount() {
 
-    const count = document.getElementById("careerCount");
+    const count =
+        document.getElementById("careerCount");
 
     if (!count) {
         return;
     }
 
     count.textContent =
-        `${currentCareers.length} career${currentCareers.length === 1 ? "" : "s"}`;
+        `${currentCareers.length} career${
+            currentCareers.length === 1
+                ? ""
+                : "s"
+        }`;
 }
 
 
@@ -586,25 +590,27 @@ function updateCareerCount() {
 
 function updateComparison() {
 
-    const comparison = document.getElementById("comparison");
+    const comparison =
+        document.getElementById("comparison");
 
     if (!comparison) {
         return;
     }
-
 
     if (selectedCareers.length === 0) {
 
         comparison.innerHTML = `
             <div class="empty-state">
                 <h3>Nothing to compare yet</h3>
-                <p>Select up to 5 careers above to compare them.</p>
+                <p>
+                    Select up to 5 careers above
+                    to compare them.
+                </p>
             </div>
         `;
 
         return;
     }
-
 
     comparison.innerHTML = `
         <div class="comparison-grid">
@@ -612,17 +618,24 @@ function updateComparison() {
             ${selectedCareers.map(career => {
 
                 const futureSalary =
-                    projectedSalary(career, 2035);
+                    projectedSalary(
+                        career,
+                        2035
+                    );
 
                 const increase =
-                    futureSalary - career.salary;
+                    futureSalary -
+                    career.salary;
 
                 return `
                     <div class="comparison-card">
 
-                        <h3>${escapeHTML(career.name)}</h3>
+                        <h3>
+                            ${escapeHTML(career.name)}
+                        </h3>
 
                         <div class="comparison-stat">
+
                             <div class="comparison-stat-label">
                                 Starting salary
                             </div>
@@ -630,9 +643,11 @@ function updateComparison() {
                             <div class="comparison-stat-value">
                                 ${formatSalary(career.salary)}
                             </div>
+
                         </div>
 
                         <div class="comparison-stat">
+
                             <div class="comparison-stat-label">
                                 2035 estimate
                             </div>
@@ -640,9 +655,11 @@ function updateComparison() {
                             <div class="comparison-stat-value">
                                 ${formatSalary(futureSalary)}
                             </div>
+
                         </div>
 
                         <div class="comparison-stat">
+
                             <div class="comparison-stat-label">
                                 Estimated increase
                             </div>
@@ -650,6 +667,7 @@ function updateComparison() {
                             <div class="comparison-stat-value">
                                 +${formatSalary(increase)}
                             </div>
+
                         </div>
 
                     </div>
@@ -668,28 +686,39 @@ function updateComparison() {
 
 function updateGraph() {
 
-    const graphContainer = document.getElementById("salaryGraph");
+    const graphContainer =
+        document.getElementById("salaryGraph");
 
     if (!graphContainer) {
-        console.warn("salaryGraph was not found.");
+        console.warn(
+            "salaryGraph element was not found."
+        );
         return;
     }
-
 
     if (selectedCareers.length === 0) {
 
         graphContainer.innerHTML = `
             <div class="graph-empty">
+
                 <div>
-                    <h3>Select careers to see the salary graph</h3>
-                    <p>Choose up to 5 careers from the database above.</p>
+
+                    <h3>
+                        Select careers to see the salary graph
+                    </h3>
+
+                    <p>
+                        Choose up to 5 careers
+                        from the database above.
+                    </p>
+
                 </div>
+
             </div>
         `;
 
         return;
     }
-
 
     const width = 1000;
     const height = 430;
@@ -698,57 +727,98 @@ function updateGraph() {
         top: 30,
         right: 30,
         bottom: 65,
-        left: 80
+        left: 90
     };
 
-
     const chartWidth =
-        width - margin.left - margin.right;
+        width -
+        margin.left -
+        margin.right;
 
     const chartHeight =
-        height - margin.top - margin.bottom;
+        height -
+        margin.top -
+        margin.bottom;
 
+    const colors = [
+        "#8b5cf6",
+        "#3b82f6",
+        "#22c55e",
+        "#f59e0b",
+        "#ef4444"
+    ];
 
-    const allValues = [];
+    const values = [];
 
     selectedCareers.forEach(career => {
 
         graphYears.forEach(year => {
 
-            allValues.push(
-                projectedSalary(career, year)
+            values.push(
+                projectedSalary(
+                    career,
+                    year
+                )
             );
 
         });
 
     });
 
+    let minValue =
+        Math.min(...values);
 
-    let minValue = Math.min(...allValues);
-    let maxValue = Math.max(...allValues);
+    let maxValue =
+        Math.max(...values);
 
+    if (
+        !Number.isFinite(minValue) ||
+        !Number.isFinite(maxValue)
+    ) {
 
-    /*
-       Add padding so the lines aren't touching
-       the top or bottom of the graph.
-    */
+        graphContainer.innerHTML = `
+            <div class="graph-empty">
+                <div>
+                    <h3>Unable to draw graph</h3>
+                    <p>
+                        One of the selected careers
+                        has invalid salary data.
+                    </p>
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+    if (minValue === maxValue) {
+        minValue -= 10000;
+        maxValue += 10000;
+    }
+
+    const range =
+        maxValue - minValue;
 
     const padding =
-        (maxValue - minValue) * 0.12 || 10000;
+        range * 0.12;
 
     minValue -= padding;
     maxValue += padding;
 
 
-    function xPosition(yearIndex) {
+    function xPosition(index) {
 
-        if (graphYears.length === 1) {
-            return margin.left + chartWidth / 2;
+        if (graphYears.length <= 1) {
+            return (
+                margin.left +
+                chartWidth / 2
+            );
         }
 
         return (
             margin.left +
-            (yearIndex / (graphYears.length - 1)) *
+            (index /
+                (graphYears.length - 1)) *
             chartWidth
         );
     }
@@ -759,75 +829,37 @@ function updateGraph() {
         return (
             margin.top +
             chartHeight -
-            ((value - minValue) /
-                (maxValue - minValue)) *
+            (
+                (value - minValue) /
+                (maxValue - minValue)
+            ) *
             chartHeight
         );
     }
 
 
-    function niceStep(range) {
-
-        const roughStep = range / 5;
-
-        const magnitude =
-            Math.pow(10, Math.floor(Math.log10(roughStep)));
-
-        const normalized =
-            roughStep / magnitude;
-
-
-        let niceNormalized;
-
-        if (normalized <= 1) {
-            niceNormalized = 1;
-        } else if (normalized <= 2) {
-            niceNormalized = 2;
-        } else if (normalized <= 5) {
-            niceNormalized = 5;
-        } else {
-            niceNormalized = 10;
-        }
-
-
-        return niceNormalized * magnitude;
-    }
-
-
-    const step = niceStep(maxValue - minValue);
-
-    const graphMin =
-        Math.floor(minValue / step) * step;
-
-    const graphMax =
-        Math.ceil(maxValue / step) * step;
-
-
-    function graphYPosition(value) {
-
-        return (
-            margin.top +
-            chartHeight -
-            ((value - graphMin) /
-                (graphMax - graphMin)) *
-            chartHeight
-        );
-    }
-
-
-    /*
-       Generate salary grid lines.
-    */
+    /* GRID */
 
     let gridLines = "";
 
+    const gridCount = 5;
+
     for (
-        let value = graphMin;
-        value <= graphMax;
-        value += step
+        let i = 0;
+        i <= gridCount;
+        i++
     ) {
 
-        const y = graphYPosition(value);
+        const value =
+            minValue +
+            (
+                (maxValue - minValue) *
+                i /
+                gridCount
+            );
+
+        const y =
+            yPosition(value);
 
         gridLines += `
             <line
@@ -835,7 +867,7 @@ function updateGraph() {
                 y1="${y}"
                 x2="${width - margin.right}"
                 y2="${y}"
-                stroke="rgba(255,255,255,0.08)"
+                stroke="rgba(255,255,255,0.10)"
                 stroke-width="1"
             />
 
@@ -852,160 +884,185 @@ function updateGraph() {
     }
 
 
-    /*
-       Generate years.
-    */
+    /* YEARS */
 
     let yearLabels = "";
 
-    graphYears.forEach((year, index) => {
+    graphYears.forEach(
+        (year, index) => {
 
-        const x = xPosition(index);
+            const x =
+                xPosition(index);
 
-        yearLabels += `
-            <text
-                x="${x}"
-                y="${height - 25}"
-                text-anchor="middle"
-                fill="#9ba6b8"
-                font-size="12"
-            >
-                ${year}
-            </text>
-        `;
+            yearLabels += `
+                <text
+                    x="${x}"
+                    y="${height - 25}"
+                    text-anchor="middle"
+                    fill="#9ba6b8"
+                    font-size="12"
+                >
+                    ${year}
+                </text>
+            `;
+        }
+    );
 
-    });
+
+    /* AXES */
+
+    const axes = `
+        <line
+            x1="${margin.left}"
+            y1="${margin.top}"
+            x2="${margin.left}"
+            y2="${margin.top + chartHeight}"
+            stroke="rgba(255,255,255,0.20)"
+            stroke-width="1"
+        />
+
+        <line
+            x1="${margin.left}"
+            y1="${margin.top + chartHeight}"
+            x2="${width - margin.right}"
+            y2="${margin.top + chartHeight}"
+            stroke="rgba(255,255,255,0.20)"
+            stroke-width="1"
+        />
+    `;
 
 
-    /*
-       Different colors for each selected career.
-
-       These are inline SVG colors rather than CSS classes,
-       which fixes the invisible-line issue.
-    */
-
-    const lineColors = [
-        "#8b5cf6",
-        "#3b82f6",
-        "#22c55e",
-        "#f59e0b",
-        "#ef4444"
-    ];
-
+    /* LINES */
 
     let paths = "";
     let points = "";
     let legend = "";
 
+    selectedCareers.forEach(
+        (career, careerIndex) => {
 
-    selectedCareers.forEach((career, careerIndex) => {
+            const color =
+                colors[
+                    careerIndex %
+                    colors.length
+                ];
 
-        const color =
-            lineColors[careerIndex % lineColors.length];
+            const coordinates =
+                graphYears.map(
+                    (year, yearIndex) => {
 
+                        return {
+                            x:
+                                xPosition(
+                                    yearIndex
+                                ),
 
-        const coordinates =
-            graphYears.map((year, yearIndex) => {
+                            y:
+                                yPosition(
+                                    projectedSalary(
+                                        career,
+                                        year
+                                    )
+                                )
+                        };
 
-                return {
-                    x: xPosition(yearIndex),
-                    y: graphYPosition(
-                        projectedSalary(career, year)
-                    )
-                };
-
-            });
-
-
-        const pathData =
-            coordinates.map((point, index) => {
-
-                return `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`;
-
-            }).join(" ");
-
-
-        paths += `
-            <path
-                d="${pathData}"
-                fill="none"
-                stroke="${color}"
-                stroke-width="4"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            />
-        `;
-
-
-        coordinates.forEach((point, yearIndex) => {
-
-            const salary =
-                projectedSalary(
-                    career,
-                    graphYears[yearIndex]
+                    }
                 );
 
 
-            points += `
-                <circle
-                    cx="${point.x}"
-                    cy="${point.y}"
-                    r="5"
-                    fill="${color}"
-                    stroke="#080b12"
-                    stroke-width="2"
-                >
-                    <title>
-                        ${career.name} — ${graphYears[yearIndex]}: ${formatSalary(salary)}
-                    </title>
-                </circle>
+            const pathData =
+                coordinates
+                    .map(
+                        (point, index) =>
+                            `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`
+                    )
+                    .join(" ");
+
+
+            paths += `
+                <path
+                    d="${pathData}"
+                    fill="none"
+                    stroke="${color}"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
             `;
 
-        });
+
+            coordinates.forEach(
+                (point, yearIndex) => {
+
+                    const salary =
+                        projectedSalary(
+                            career,
+                            graphYears[
+                                yearIndex
+                            ]
+                        );
+
+                    points += `
+                        <circle
+                            cx="${point.x}"
+                            cy="${point.y}"
+                            r="5"
+                            fill="${color}"
+                            stroke="#080b12"
+                            stroke-width="2"
+                        >
+                            <title>
+                                ${escapeHTML(career.name)}
+                                —
+                                ${graphYears[yearIndex]}:
+                                ${formatSalary(salary)}
+                            </title>
+                        </circle>
+                    `;
+                }
+            );
 
 
-        legend += `
-            <div style="
-                display:flex;
-                align-items:center;
-                gap:8px;
-                font-size:13px;
-                color:#f4f7fb;
-            ">
-                <span style="
-                    width:12px;
-                    height:12px;
-                    border-radius:50%;
-                    background:${color};
-                    display:inline-block;
-                "></span>
+            legend += `
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    gap:8px;
+                    font-size:13px;
+                    color:#f4f7fb;
+                ">
 
-                ${escapeHTML(career.name)}
-            </div>
-        `;
+                    <span style="
+                        width:12px;
+                        height:12px;
+                        border-radius:50%;
+                        background:${color};
+                        display:inline-block;
+                        flex-shrink:0;
+                    "></span>
 
-    });
+                    ${escapeHTML(career.name)}
 
+                </div>
+            `;
+        }
+    );
+
+
+    /* FINAL SVG */
 
     graphContainer.innerHTML = `
 
         <svg
             viewBox="0 0 ${width} ${height}"
+            xmlns="http://www.w3.org/2000/svg"
             role="img"
             aria-label="Estimated salary comparison graph"
         >
 
             ${gridLines}
 
-            <!-- X axis -->
-            <line
-                x1="${margin.left}"
-                y1="${margin.top + chartHeight}"
-                x2="${width - margin.right}"
-                y2="${margin.top + chartHeight}"
-                stroke="rgba(255,255,255,0.15)"
-                stroke-width="1"
-            />
+            ${axes}
 
             ${yearLabels}
 
@@ -1058,7 +1115,10 @@ function clearComparison() {
 
 function quickSearch(query) {
 
-    const input = document.getElementById("careerSearch");
+    const input =
+        document.getElementById(
+            "careerSearch"
+        );
 
     if (!input) {
         return;
@@ -1069,9 +1129,12 @@ function quickSearch(query) {
     searchCareers();
 
     const database =
-        document.getElementById("careerDatabase");
+        document.getElementById(
+            "careerDatabase"
+        );
 
     if (database) {
+
         database.scrollIntoView({
             behavior: "smooth",
             block: "start"
@@ -1087,19 +1150,22 @@ function quickSearch(query) {
 let aiConversation = [];
 
 
-function addAIMessage(type, message) {
+function addAIMessage(
+    type,
+    message
+) {
 
     const aiMessages =
-        document.getElementById("aiMessages");
+        document.getElementById(
+            "aiMessages"
+        );
 
     if (!aiMessages) {
         return null;
     }
 
-
     const wrapper =
         document.createElement("div");
-
 
     wrapper.className =
         type === "user"
@@ -1110,16 +1176,20 @@ function addAIMessage(type, message) {
     const avatar =
         document.createElement("div");
 
-    avatar.className = "ai-avatar";
+    avatar.className =
+        "ai-avatar";
 
     avatar.textContent =
-        type === "user" ? "YOU" : "AI";
+        type === "user"
+            ? "YOU"
+            : "AI";
 
 
     const bubble =
         document.createElement("div");
 
-    bubble.className = "ai-bubble";
+    bubble.className =
+        "ai-bubble";
 
 
     const name =
@@ -1134,7 +1204,8 @@ function addAIMessage(type, message) {
     const text =
         document.createElement("p");
 
-    text.textContent = message;
+    text.textContent =
+        message;
 
 
     bubble.appendChild(name);
@@ -1145,10 +1216,8 @@ function addAIMessage(type, message) {
 
     aiMessages.appendChild(wrapper);
 
-
     aiMessages.scrollTop =
         aiMessages.scrollHeight;
-
 
     return wrapper;
 }
@@ -1157,12 +1226,13 @@ function addAIMessage(type, message) {
 function addAIThinking() {
 
     const aiMessages =
-        document.getElementById("aiMessages");
+        document.getElementById(
+            "aiMessages"
+        );
 
     if (!aiMessages) {
         return null;
     }
-
 
     const wrapper =
         document.createElement("div");
@@ -1173,13 +1243,16 @@ function addAIThinking() {
     wrapper.id =
         "aiThinkingMessage";
 
-
     wrapper.innerHTML = `
-        <div class="ai-avatar">AI</div>
+        <div class="ai-avatar">
+            AI
+        </div>
 
         <div class="ai-bubble">
 
-            <strong>CareerCompare AI</strong>
+            <strong>
+                CareerCompare AI
+            </strong>
 
             <div class="ai-thinking">
                 <span></span>
@@ -1190,12 +1263,10 @@ function addAIThinking() {
         </div>
     `;
 
-
     aiMessages.appendChild(wrapper);
 
     aiMessages.scrollTop =
         aiMessages.scrollHeight;
-
 
     return wrapper;
 }
@@ -1208,22 +1279,28 @@ function addAIThinking() {
 async function askAI(question) {
 
     question =
-        String(question || "").trim();
-
+        String(
+            question || ""
+        ).trim();
 
     if (!question) {
         return;
     }
 
-
     const aiInput =
-        document.getElementById("aiInput");
+        document.getElementById(
+            "aiInput"
+        );
 
     const aiSendButton =
-        document.getElementById("aiSendButton");
+        document.getElementById(
+            "aiSendButton"
+        );
 
     const aiStatus =
-        document.getElementById("aiStatus");
+        document.getElementById(
+            "aiStatus"
+        );
 
 
     addAIMessage(
@@ -1260,41 +1337,41 @@ async function askAI(question) {
 
     try {
 
-        /*
-           IMPORTANT:
-
-           This is intentionally NOT an OpenRouter
-           request from the browser.
-
-           Your eventual backend will call OpenRouter
-           securely so your API key is not public.
-        */
-
         const response =
-            await fetch("https://career-compare-sooty.vercel.app/api/ai", {
-                method: "POST",
+            await fetch(
+                "https://career-compare-sooty.vercel.app/api/ai",
+                {
+                    method: "POST",
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                body: JSON.stringify({
+                    body: JSON.stringify({
 
-                    message: question,
+                        message:
+                            question,
 
-                    conversation:
-                        aiConversation,
+                        conversation:
+                            aiConversation.slice(-10),
 
-                    selectedCareers:
-                        selectedCareers.map(career => ({
-                            name: career.name,
-                            category: career.category,
-                            salary: career.salary
-                        }))
+                        selectedCareers:
+                            selectedCareers.map(
+                                career => ({
+                                    name:
+                                        career.name,
 
-                })
+                                    category:
+                                        career.category,
 
-            });
+                                    salary:
+                                        career.salary
+                                })
+                            )
+                    })
+                }
+            );
 
 
         if (!response.ok) {
@@ -1302,12 +1379,10 @@ async function askAI(question) {
             let errorMessage =
                 `Server error (${response.status})`;
 
-
             try {
 
                 const errorData =
                     await response.json();
-
 
                 if (errorData.error) {
                     errorMessage =
@@ -1315,11 +1390,12 @@ async function askAI(question) {
                 }
 
             } catch {
-                // Ignore invalid error response
+                // Ignore malformed error response
             }
 
-
-            throw new Error(errorMessage);
+            throw new Error(
+                errorMessage
+            );
         }
 
 
@@ -1328,6 +1404,7 @@ async function askAI(question) {
 
 
         if (!data.reply) {
+
             throw new Error(
                 "The AI server returned no reply."
             );
@@ -1372,7 +1449,7 @@ async function askAI(question) {
 
         addAIMessage(
             "assistant",
-            "I couldn't connect to the AI server yet. The CareerCompare database and salary tools are still working. We'll connect the secure AI backend next."
+            "I couldn't connect to the AI server right now. Your CareerCompare database is still working normally."
         );
 
 
@@ -1391,7 +1468,6 @@ async function askAI(question) {
         if (aiInput) {
             aiInput.focus();
         }
-
     }
 }
 
@@ -1403,16 +1479,18 @@ async function askAI(question) {
 function initializeAI() {
 
     const aiForm =
-        document.getElementById("aiForm");
+        document.getElementById(
+            "aiForm"
+        );
 
     const aiInput =
-        document.getElementById("aiInput");
-
+        document.getElementById(
+            "aiInput"
+        );
 
     if (!aiForm || !aiInput) {
         return;
     }
-
 
     aiForm.addEventListener(
         "submit",
@@ -1423,25 +1501,247 @@ function initializeAI() {
             const question =
                 aiInput.value.trim();
 
-
             if (!question) {
                 return;
             }
 
-
             askAI(question);
-
         }
     );
 }
 
 
-/*
-   Make askAI available to the inline
-   quick-question buttons in index.html.
-*/
+/* =========================================================
+   OFFICIAL DATA UPDATE
+   ========================================================= */
 
-window.askAI = askAI;
+const API_BASE =
+    "https://career-compare-sooty.vercel.app";
+
+
+async function updateOfficialData() {
+
+    const button =
+        document.getElementById(
+            "officialUpdateButton"
+        );
+
+    const status =
+        document.getElementById(
+            "officialDataStatus"
+        );
+
+
+    if (!button) {
+
+        console.warn(
+            "officialUpdateButton was not found."
+        );
+
+        return;
+    }
+
+
+    const originalText =
+        button.textContent;
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Updating...";
+
+
+    if (status) {
+
+        status.textContent =
+            "Connecting to official BLS data...";
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/update-data`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        careers:
+                            careers.map(
+                                career => ({
+                                    name:
+                                        career.name,
+
+                                    category:
+                                        career.category,
+
+                                    salary:
+                                        career.salary
+                                })
+                            )
+                    })
+                }
+            );
+
+
+        if (!response.ok) {
+
+            let errorMessage =
+                `Server error (${response.status})`;
+
+            try {
+
+                const errorData =
+                    await response.json();
+
+                if (errorData.error) {
+                    errorMessage =
+                        errorData.error;
+                }
+
+            } catch {
+                // Ignore malformed response
+            }
+
+            throw new Error(
+                errorMessage
+            );
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            throw new Error(
+                data.error ||
+                "The official data update failed."
+            );
+        }
+
+
+        let updatedCount = 0;
+
+
+        if (Array.isArray(data.updated)) {
+
+            data.updated.forEach(
+                update => {
+
+                    const career =
+                        careers.find(
+                            item =>
+                                item.name ===
+                                update.name
+                        );
+
+                    if (
+                        career &&
+                        Number.isFinite(
+                            Number(
+                                update.salary
+                            )
+                        )
+                    ) {
+
+                        career.salary =
+                            Number(
+                                update.salary
+                            );
+
+                        updatedCount++;
+                    }
+                }
+            );
+        }
+
+
+        /*
+           Refresh everything after
+           official salary updates.
+        */
+
+        currentCareers =
+            [...careers];
+
+        applyActiveCategoryAndSort();
+        updateCareerCount();
+        updateComparison();
+        updateGraph();
+
+
+        if (status) {
+
+            status.textContent =
+                `✓ Official BLS data updated — ${updatedCount} career${
+                    updatedCount === 1
+                        ? ""
+                        : "s"
+                } refreshed.`;
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Official data update error:",
+            error
+        );
+
+
+        if (status) {
+
+            status.textContent =
+                `Update failed: ${error.message}`;
+        }
+
+
+        alert(
+            "The official salary update could not be completed.\n\n" +
+            error.message +
+            "\n\n" +
+            "Your built-in salary data is still being used."
+        );
+
+
+    } finally {
+
+        button.disabled = false;
+
+        button.textContent =
+            originalText;
+    }
+}
+
+
+/* =========================================================
+   GLOBAL FUNCTIONS
+   ========================================================= */
+
+window.askAI =
+    askAI;
+
+window.quickSearch =
+    quickSearch;
+
+window.toggleCareer =
+    toggleCareer;
+
+window.clearComparison =
+    clearComparison;
+
+window.updateOfficialData =
+    updateOfficialData;
 
 
 /* =========================================================
@@ -1452,22 +1752,33 @@ document.addEventListener(
     "DOMContentLoaded",
     function() {
 
+        /* Database */
+
         buildCategoryFilter();
 
         displayCareers();
 
         updateCareerCount();
 
+
+        /* Comparison */
+
         updateComparison();
 
         updateGraph();
 
+
+        /* AI */
+
         initializeAI();
 
 
-        const searchInput =
-            document.getElementById("careerSearch");
+        /* Search */
 
+        const searchInput =
+            document.getElementById(
+                "careerSearch"
+            );
 
         if (searchInput) {
 
@@ -1475,13 +1786,15 @@ document.addEventListener(
                 "input",
                 searchCareers
             );
-
         }
 
 
-        const categoryFilter =
-            document.getElementById("categoryFilter");
+        /* Category */
 
+        const categoryFilter =
+            document.getElementById(
+                "categoryFilter"
+            );
 
         if (categoryFilter) {
 
@@ -1489,13 +1802,15 @@ document.addEventListener(
                 "change",
                 applyCategoryFilter
             );
-
         }
 
 
-        const sortFilter =
-            document.getElementById("sortFilter");
+        /* Sorting */
 
+        const sortFilter =
+            document.getElementById(
+                "sortFilter"
+            );
 
         if (sortFilter) {
 
@@ -1503,13 +1818,15 @@ document.addEventListener(
                 "change",
                 sortCareers
             );
-
         }
 
 
-        const clearButton =
-            document.getElementById("clearComparison");
+        /* Clear comparison */
 
+        const clearButton =
+            document.getElementById(
+                "clearComparison"
+            );
 
         if (clearButton) {
 
@@ -1517,8 +1834,28 @@ document.addEventListener(
                 "click",
                 clearComparison
             );
-
         }
+
+
+        /* Official data */
+
+        const officialUpdateButton =
+            document.getElementById(
+                "officialUpdateButton"
+            );
+
+        if (officialUpdateButton) {
+
+            officialUpdateButton.addEventListener(
+                "click",
+                updateOfficialData
+            );
+        }
+
+
+        console.log(
+            "CareerCompare initialized successfully."
+        );
 
     }
 );
