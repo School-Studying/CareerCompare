@@ -1,66 +1,861 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>CareerCompare</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
 
 <body>
 
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
 <header>
+
     <div class="logo">
         Career<span>Compare</span>
     </div>
+
+    <div class="header-status">
+        <span class="status-dot"></span>
+        Built-in salary data
+    </div>
+
 </header>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
 
 <main>
 
+
+    <!-- HERO -->
+
     <section class="hero">
 
+        <div class="hero-badge">
+            🚀 Explore your future
+        </div>
+
         <h1>
-            Compare Your <span>Future</span>
+            Compare Your
+            <span>Future</span>
         </h1>
 
         <p>
-            Explore careers, compare salaries, and see what your future could look like.
+            Explore careers, compare salaries,
+            and discover what your future could look like.
         </p>
+
+
+        <!-- SEARCH -->
 
         <div class="search-box">
 
             <input
                 id="searchInput"
                 type="text"
-                placeholder="Search careers..."
+                placeholder="Search careers... e.g. Software Developer"
+                autocomplete="off"
             >
 
-            <button onclick="searchCareers()">
-                Search
+            <button
+                id="searchButton"
+                onclick="searchCareers()"
+            >
+                🔎 Search
+            </button>
+
+        </div>
+
+
+        <!-- QUICK SEARCHES -->
+
+        <div class="quick-searches">
+
+            <span>Try:</span>
+
+            <button onclick="quickSearch('Software')">
+                Software
+            </button>
+
+            <button onclick="quickSearch('Doctor')">
+                Doctor
+            </button>
+
+            <button onclick="quickSearch('Teacher')">
+                Teacher
+            </button>
+
+            <button onclick="quickSearch('Engineer')">
+                Engineer
+            </button>
+
+            <button onclick="quickSearch('Electrician')">
+                Electrician
             </button>
 
         </div>
 
     </section>
 
-    <h2 class="section-title">
-        Popular Careers
-    </h2>
+
+
+    <!-- =====================================================
+         CONTROLS
+    ====================================================== -->
+
+    <section class="controls">
+
+        <div class="control-group">
+
+            <label for="categoryFilter">
+                Category
+            </label>
+
+            <select id="categoryFilter">
+
+                <option value="all">
+                    All Careers
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="control-group">
+
+            <label for="sortFilter">
+                Sort by
+            </label>
+
+            <select id="sortFilter">
+
+                <option value="default">
+                    Recommended
+                </option>
+
+                <option value="salary-high">
+                    Highest Salary
+                </option>
+
+                <option value="salary-low">
+                    Lowest Salary
+                </option>
+
+                <option value="name">
+                    A → Z
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="results-count">
+
+            <strong id="careerCount">
+                0
+            </strong>
+
+            careers
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CAREER DATABASE
+    ====================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    Explore Careers
+                </h2>
+
+                <p>
+                    Select up to 5 careers to compare.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <section
+            id="careerList"
+            class="careers"
+        ></section>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         COMPARISON
+    ====================================================== -->
 
     <section
-        id="careerList"
-        class="careers">
+        id="comparisonSection"
+        class="feature-section"
+    >
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    📊 Your Comparison
+                </h2>
+
+                <p>
+                    Your selected careers will appear here.
+                </p>
+
+            </div>
+
+            <button
+                id="clearComparison"
+                class="secondary-button"
+            >
+                Clear
+            </button>
+
+        </div>
+
+
+        <div
+            id="comparison"
+            class="comparison-grid"
+        >
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    📊
+                </div>
+
+                <h3>
+                    Nothing selected yet
+                </h3>
+
+                <p>
+                    Click "Compare" on careers above
+                    to start your comparison.
+                </p>
+
+            </div>
+
+        </div>
+
     </section>
+
+
+
+    <!-- =====================================================
+         SALARY GRAPH
+    ====================================================== -->
+
+    <section
+        id="graphSection"
+        class="feature-section"
+    >
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    📈 Salary Comparison
+                </h2>
+
+                <p>
+                    See how selected careers compare.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="salaryGraph"
+            class="graph-container"
+        >
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    📈
+                </div>
+
+                <h3>
+                    Select careers to see the graph
+                </h3>
+
+                <p>
+                    Choose careers above and their
+                    salary comparison will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         AI CAREER ADVISOR
+    ====================================================== -->
+
+    <section
+        id="aiSection"
+        class="feature-section ai-section"
+    >
+
+        <div class="ai-header">
+
+            <div>
+
+                <div class="ai-badge">
+                    ✨ AI POWERED
+                </div>
+
+                <h2>
+                    CareerCompare AI
+                </h2>
+
+                <p>
+                    Get personalized career advice,
+                    comparisons, and recommendations.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="ai-prompt-box">
+
+            <input
+                id="aiInput"
+                type="text"
+                placeholder="Ask something like: Which career pays the most?"
+            >
+
+            <button
+                id="aiButton"
+            >
+                Ask AI
+            </button>
+
+        </div>
+
+
+        <div
+            id="aiResponse"
+            class="ai-response"
+        >
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    🤖
+                </div>
+
+                <h3>
+                    Your AI career advisor
+                </h3>
+
+                <p>
+                    OpenRouter will power this section
+                    once we connect the backend.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         OFFICIAL DATA
+    ====================================================== -->
+
+    <section
+        id="officialDataSection"
+        class="official-section"
+    >
+
+        <div>
+
+            <div class="official-icon">
+                🔄
+            </div>
+
+            <div>
+
+                <h2>
+                    Official Salary Data
+                </h2>
+
+                <p>
+                    Built-in salaries work immediately.
+                    Later, the backend can retrieve
+                    the latest official BLS data.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="officialUpdateButton"
+        >
+            🔄 Update Official Data
+        </button>
+
+
+        <div
+            id="officialStatus"
+            class="official-status"
+        >
+            🟡 Using built-in rounded salary data
+        </div>
+
+    </section>
+
 
 </main>
 
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
 <footer>
-    CareerCompare — Explore. Compare. Plan your future.
+
+    <div class="footer-logo">
+        Career<span>Compare</span>
+    </div>
+
+    <p>
+        Explore. Compare. Plan your future.
+    </p>
+
+    <p class="footer-small">
+        Salary information will be connected
+        to official sources in a later step.
+    </p>
+
 </footer>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
 
 <script src="app.js"></script>
 
+
+<script>
+
+    /*
+     * Quick search buttons
+     */
+
+    function quickSearch(term) {
+
+        const input =
+            document.getElementById("searchInput");
+
+        if (!input) return;
+
+        input.value = term;
+
+        searchCareers();
+
+    }
+
+
+
+    /*
+     * Update career count
+     */
+
+    function updateCareerCount() {
+
+        const count =
+            document.getElementById("careerCount");
+
+        if (!count) return;
+
+        count.textContent =
+            typeof currentCareers !== "undefined"
+                ? currentCareers.length
+                : 0;
+
+    }
+
+
+
+    /*
+     * Category dropdown
+     */
+
+    function buildCategoryFilter() {
+
+        const filter =
+            document.getElementById("categoryFilter");
+
+        if (!filter ||
+            typeof careers === "undefined") {
+
+            return;
+
+        }
+
+
+        const categories =
+            [...new Set(
+                careers.map(
+                    career => career.category
+                )
+            )].sort();
+
+
+        categories.forEach(category => {
+
+            const option =
+                document.createElement("option");
+
+            option.value = category;
+
+            option.textContent = category;
+
+            filter.appendChild(option);
+
+        });
+
+    }
+
+
+
+    /*
+     * Filter by category
+     */
+
+    function applyCategoryFilter() {
+
+        const filter =
+            document.getElementById("categoryFilter");
+
+        if (!filter ||
+            typeof careers === "undefined") {
+
+            return;
+
+        }
+
+
+        const category =
+            filter.value;
+
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+
+        const search =
+            searchInput
+                ? searchInput.value
+                    .toLowerCase()
+                    .trim()
+                : "";
+
+
+        currentCareers =
+            careers.filter(career => {
+
+                const matchesCategory =
+                    category === "all" ||
+                    career.category === category;
+
+
+                const matchesSearch =
+                    career.name
+                        .toLowerCase()
+                        .includes(search)
+                    ||
+                    career.category
+                        .toLowerCase()
+                        .includes(search);
+
+
+                return (
+                    matchesCategory &&
+                    matchesSearch
+                );
+
+            });
+
+
+        displayCareers(currentCareers);
+
+        updateCareerCount();
+
+    }
+
+
+
+    /*
+     * Sorting
+     */
+
+    function applySort() {
+
+        const sort =
+            document.getElementById("sortFilter");
+
+        if (!sort) return;
+
+
+        sortCareers(sort.value);
+
+        updateCareerCount();
+
+    }
+
+
+
+    /*
+     * Clear comparison
+     */
+
+    function clearComparison() {
+
+        if (
+            typeof selectedCareers !== "undefined"
+        ) {
+
+            selectedCareers.length = 0;
+
+        }
+
+
+        if (
+            typeof currentCareers !== "undefined"
+        ) {
+
+            displayCareers(currentCareers);
+
+        }
+
+
+        if (
+            typeof updateComparison === "function"
+        ) {
+
+            updateComparison();
+
+        }
+
+    }
+
+
+
+    /*
+     * Initialize the dashboard
+     */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        () => {
+
+            buildCategoryFilter();
+
+            updateCareerCount();
+
+
+            const categoryFilter =
+                document.getElementById(
+                    "categoryFilter"
+                );
+
+            if (categoryFilter) {
+
+                categoryFilter.addEventListener(
+                    "change",
+                    applyCategoryFilter
+                );
+
+            }
+
+
+            const sortFilter =
+                document.getElementById(
+                    "sortFilter"
+                );
+
+            if (sortFilter) {
+
+                sortFilter.addEventListener(
+                    "change",
+                    applySort
+                );
+
+            }
+
+
+            const clearButton =
+                document.getElementById(
+                    "clearComparison"
+                );
+
+            if (clearButton) {
+
+                clearButton.addEventListener(
+                    "click",
+                    clearComparison
+                );
+
+            }
+
+
+            const aiButton =
+                document.getElementById(
+                    "aiButton"
+                );
+
+            const aiInput =
+                document.getElementById(
+                    "aiInput"
+                );
+
+
+            if (aiButton && aiInput) {
+
+                aiButton.addEventListener(
+                    "click",
+                    () => {
+
+                        const response =
+                            document.getElementById(
+                                "aiResponse"
+                            );
+
+                        if (!response) return;
+
+
+                        response.innerHTML = `
+
+                            <div class="ai-message">
+
+                                <strong>
+                                    🤖 CareerCompare AI
+                                </strong>
+
+                                <p>
+                                    AI will be connected
+                                    to OpenRouter through
+                                    our secure backend soon.
+                                </p>
+
+                            </div>
+
+                        `;
+
+                    }
+                );
+
+
+                aiInput.addEventListener(
+                    "keydown",
+                    event => {
+
+                        if (event.key === "Enter") {
+
+                            aiButton.click();
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            const officialButton =
+                document.getElementById(
+                    "officialUpdateButton"
+                );
+
+
+            if (officialButton) {
+
+                officialButton.addEventListener(
+                    "click",
+                    () => {
+
+                        const status =
+                            document.getElementById(
+                                "officialStatus"
+                            );
+
+                        if (!status) return;
+
+
+                        status.textContent =
+                            "🟡 Backend connection will be added soon.";
+
+                    }
+                );
+
+            }
+
+
+            updateCareerCount();
+
+        }
+    );
+
+</script>
+
 </body>
+
 </html>
