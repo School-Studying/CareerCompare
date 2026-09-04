@@ -170,7 +170,7 @@ const careers = [
     { name: "Roofer", category: "Trades", salary: 50000 },
 
     // =========================
-    // GOVERNMENT & PUBLIC SERVICE
+    // PUBLIC SERVICE
     // =========================
 
     { name: "Police Officer", category: "Public Service", salary: 79000 },
@@ -301,8 +301,42 @@ const careers = [
 // ============================================================
 
 let selectedCareers = [];
-
 let currentCareers = [...careers];
+
+
+// ============================================================
+// GRAPH SETTINGS
+// ============================================================
+
+const GRAPH_START_YEAR = 2026;
+const GRAPH_END_YEAR = 2035;
+
+
+// Approximate annual salary growth assumptions.
+// These are intentionally labeled as estimates.
+// Later, official historical BLS data can replace this.
+const GROWTH_RATES = {
+    "Technology": 0.035,
+    "Healthcare": 0.030,
+    "Education": 0.030,
+    "Engineering": 0.032,
+    "Engineering & Design": 0.030,
+    "Business & Finance": 0.032,
+    "Law": 0.030,
+    "Science": 0.030,
+    "Trades": 0.030,
+    "Trades & Construction": 0.030,
+    "Public Service": 0.030,
+    "Transportation": 0.030,
+    "Arts & Design": 0.028,
+    "Media & Communication": 0.028,
+    "Marketing & Sales": 0.032,
+    "Social & Human Services": 0.030,
+    "Agriculture & Environment": 0.030,
+    "Food & Hospitality": 0.028,
+    "Sports & Recreation": 0.028,
+    "Personal Services": 0.028
+};
 
 
 // ============================================================
@@ -321,7 +355,7 @@ function formatSalary(amount) {
 
 function formatFullSalary(amount) {
 
-    return "$" + amount.toLocaleString();
+    return "$" + Math.round(amount).toLocaleString();
 }
 
 
@@ -333,6 +367,24 @@ function escapeHTML(value) {
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+}
+
+
+function getGrowthRate(career) {
+
+    return GROWTH_RATES[career.category] || 0.03;
+}
+
+
+function projectedSalary(career, year) {
+
+    const yearsElapsed = year - GRAPH_START_YEAR;
+
+    return career.salary *
+        Math.pow(
+            1 + getGrowthRate(career),
+            yearsElapsed
+        );
 }
 
 
@@ -445,6 +497,8 @@ function toggleCareer(career) {
     displayCareers(currentCareers);
 
     updateComparison();
+
+    updateGraph();
 }
 
 
@@ -517,12 +571,12 @@ function sortCareers(type) {
 
 
 // ============================================================
-// COMPARISON
+// COMPARISON CARDS
 // ============================================================
 
 function updateComparison() {
 
-    let comparison =
+    const comparison =
         document.getElementById("comparison");
 
     if (!comparison) return;
@@ -535,35 +589,613 @@ function updateComparison() {
             </p>
         `;
 
+        updateGraph();
+
         return;
     }
 
     comparison.innerHTML = selectedCareers
-        .map(career => `
+        .map(career => {
 
-            <div class="career">
+            const futureSalary =
+                projectedSalary(
+                    career,
+                    GRAPH_END_YEAR
+                );
 
-                <h3>
-                    ${escapeHTML(career.name)}
-                </h3>
+            const increase =
+                futureSalary - career.salary;
 
-                <div class="category">
-                    ${escapeHTML(career.category)}
+            return `
+
+                <div class="career">
+
+                    <h3>
+                        ${escapeHTML(career.name)}
+                    </h3>
+
+                    <div class="category">
+                        ${escapeHTML(career.category)}
+                    </div>
+
+                    <div class="salary">
+                        ${formatSalary(career.salary)}
+                    </div>
+
+                    <div class="salary-label">
+                        Starting salary
+                    </div>
+
+                    <div style="
+                        margin-top:14px;
+                        font-size:14px;
+                        opacity:.75;
+                    ">
+                        2035 estimate
+                    </div>
+
+                    <div style="
+                        font-size:22px;
+                        font-weight:800;
+                        margin-top:3px;
+                    ">
+                        ${formatSalary(futureSalary)}
+                    </div>
+
+                    <div style="
+                        margin-top:8px;
+                        font-size:13px;
+                        opacity:.7;
+                    ">
+                        +${formatSalary(increase)}
+                        estimated increase
+                    </div>
+
                 </div>
 
-                <div class="salary">
-                    ${formatSalary(career.salary)}
-                </div>
+            `;
+        })
+        .join("");
 
-                <div class="salary-label">
-                    ${formatFullSalary(career.salary)}
-                    average annual salary
-                </div>
+    updateGraph();
+}
 
+
+// ============================================================
+// GRAPH
+// ============================================================
+
+function updateGraph() {
+
+    const graph =
+        document.getElementById("salaryGraph");
+
+    if (!graph) return;
+
+    if (selectedCareers.length === 0) {
+
+        graph.innerHTML = `
+            <div class="graph-empty">
+                <div style="font-size:42px;">📈</div>
+
+                <h3>No careers selected</h3>
+
+                <p>
+                    Select two or more careers above
+                    to see their salary trends.
+                </p>
+            </div>
+        `;
+
+        return;
+    }
+
+    const width = 1000;
+    const height = 500;
+
+    const paddingLeft = 75;
+    const paddingRight = 30;
+    const paddingTop = 35;
+    const paddingBottom = 65;
+
+    const chartWidth =
+        width - paddingLeft - paddingRight;
+
+    const chartHeight =
+        height - paddingTop - paddingBottom;
+
+
+    // --------------------------------------------
+    // Find maximum salary
+    // --------------------------------------------
+
+    let maxSalary = 0;
+
+    selectedCareers.forEach(career => {
+
+        const future =
+            projectedSalary(
+                career,
+                GRAPH_END_YEAR
+            );
+
+        maxSalary =
+            Math.max(
+                maxSalary,
+                future
+            );
+    });
+
+
+    // Give graph some breathing room
+    maxSalary *= 1.1;
+
+
+    // --------------------------------------------
+    // SVG coordinates
+    // --------------------------------------------
+
+    function xForYear(year) {
+
+        const position =
+            (year - GRAPH_START_YEAR) /
+            (GRAPH_END_YEAR - GRAPH_START_YEAR);
+
+        return paddingLeft +
+            position * chartWidth;
+    }
+
+
+    function yForSalary(salary) {
+
+        return paddingTop +
+            chartHeight -
+            (salary / maxSalary) *
+            chartHeight;
+    }
+
+
+    // --------------------------------------------
+    // Build SVG
+    // --------------------------------------------
+
+    let svg = `
+
+        <svg
+            viewBox="0 0 ${width} ${height}"
+            width="100%"
+            height="100%"
+            preserveAspectRatio="none"
+            style="
+                overflow:visible;
+                font-family:inherit;
+            "
+        >
+
+            <!-- Background -->
+
+            <rect
+                x="0"
+                y="0"
+                width="${width}"
+                height="${height}"
+                rx="18"
+                fill="transparent"
+            />
+
+    `;
+
+
+    // --------------------------------------------
+    // Horizontal grid lines
+    // --------------------------------------------
+
+    const gridLines = 5;
+
+    for (let i = 0; i <= gridLines; i++) {
+
+        const salary =
+            (maxSalary / gridLines) * i;
+
+        const y =
+            yForSalary(salary);
+
+        svg += `
+
+            <line
+                x1="${paddingLeft}"
+                y1="${y}"
+                x2="${width - paddingRight}"
+                y2="${y}"
+                stroke="currentColor"
+                opacity="0.10"
+                stroke-width="1"
+            />
+
+            <text
+                x="${paddingLeft - 12}"
+                y="${y + 5}"
+                text-anchor="end"
+                font-size="12"
+                fill="currentColor"
+                opacity="0.55"
+            >
+                ${formatSalary(salary)}
+            </text>
+
+        `;
+    }
+
+
+    // --------------------------------------------
+    // Years
+    // --------------------------------------------
+
+    for (
+        let year = GRAPH_START_YEAR;
+        year <= GRAPH_END_YEAR;
+        year++
+    ) {
+
+        const x =
+            xForYear(year);
+
+        svg += `
+
+            <line
+                x1="${x}"
+                y1="${paddingTop}"
+                x2="${x}"
+                y2="${height - paddingBottom}"
+                stroke="currentColor"
+                opacity="0.05"
+                stroke-width="1"
+            />
+
+            <text
+                x="${x}"
+                y="${height - 28}"
+                text-anchor="middle"
+                font-size="12"
+                fill="currentColor"
+                opacity="0.60"
+            >
+                ${year}
+            </text>
+
+        `;
+    }
+
+
+    // --------------------------------------------
+    // Career lines
+    // --------------------------------------------
+
+    selectedCareers.forEach((career, careerIndex) => {
+
+        const growth =
+            getGrowthRate(career);
+
+        const points = [];
+
+        for (
+            let year = GRAPH_START_YEAR;
+            year <= GRAPH_END_YEAR;
+            year++
+        ) {
+
+            const salary =
+                projectedSalary(
+                    career,
+                    year
+                );
+
+            points.push({
+
+                year,
+
+                salary,
+
+                x: xForYear(year),
+
+                y: yForSalary(salary)
+
+            });
+        }
+
+
+        const path =
+            points
+                .map(
+                    (point, index) =>
+                        `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`
+                )
+                .join(" ");
+
+
+        // SVG has no guaranteed CSS palette from our stylesheet,
+        // so use a rotating set of classes and let CSS handle them.
+
+        const lineClass =
+            `career-line-${careerIndex + 1}`;
+
+
+        svg += `
+
+            <path
+                d="${path}"
+                fill="none"
+                class="${lineClass}"
+                stroke-width="4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            />
+
+        `;
+
+
+        // Points
+
+        points.forEach(point => {
+
+            svg += `
+
+                <circle
+                    cx="${point.x}"
+                    cy="${point.y}"
+                    r="5"
+                    class="${lineClass}"
+                    stroke-width="2"
+                    tabindex="0"
+                >
+
+                    <title>
+                        ${escapeHTML(career.name)}
+                        — ${point.year}
+                        — ${formatFullSalary(point.salary)}
+                    </title>
+
+                </circle>
+
+            `;
+        });
+
+
+        // Current salary label
+
+        const firstPoint = points[0];
+
+        svg += `
+
+            <text
+                x="${firstPoint.x + 8}"
+                y="${firstPoint.y - 10}"
+                font-size="12"
+                font-weight="700"
+                fill="currentColor"
+                opacity="0.85"
+            >
+                ${escapeHTML(career.name)}
+            </text>
+
+        `;
+
+
+        // Keep growth variable used intentionally
+        void growth;
+    });
+
+
+    svg += `</svg>`;
+
+
+    // --------------------------------------------
+    // Legend
+    // --------------------------------------------
+
+    const legend =
+        selectedCareers
+            .map(
+                (career, index) => `
+
+                    <div
+                        class="graph-legend-item"
+                        style="
+                            display:flex;
+                            align-items:center;
+                            gap:8px;
+                        "
+                    >
+
+                        <span
+                            class="legend-dot career-line-${index + 1}"
+                            style="
+                                width:10px;
+                                height:10px;
+                                border-radius:50%;
+                                display:inline-block;
+                            "
+                        ></span>
+
+                        <span>
+                            ${escapeHTML(career.name)}
+                        </span>
+
+                    </div>
+
+                `
+            )
+            .join("");
+
+
+    graph.innerHTML = `
+
+        <div
+            style="
+                width:100%;
+                overflow:hidden;
+            "
+        >
+
+            <div
+                style="
+                    min-width:650px;
+                    height:500px;
+                "
+            >
+                ${svg}
             </div>
 
-        `)
-        .join("");
+            <div
+                class="graph-legend"
+                style="
+                    display:flex;
+                    flex-wrap:wrap;
+                    gap:18px;
+                    padding:15px 10px 5px;
+                    font-size:13px;
+                    opacity:.85;
+                "
+            >
+                ${legend}
+            </div>
+
+            <div
+                style="
+                    margin-top:12px;
+                    font-size:12px;
+                    opacity:.55;
+                    padding:0 10px 10px;
+                "
+            >
+                Estimated salary trend based on built-in salary
+                data and category-level growth assumptions.
+            </div>
+
+        </div>
+    `;
+}
+
+
+// ============================================================
+// CLEAR COMPARISON
+// ============================================================
+
+function clearComparison() {
+
+    selectedCareers = [];
+
+    displayCareers(currentCareers);
+
+    updateComparison();
+
+    updateGraph();
+}
+
+
+// ============================================================
+// QUICK SEARCH
+// ============================================================
+
+function quickSearch(term) {
+
+    const input =
+        document.getElementById("searchInput");
+
+    if (!input) return;
+
+    input.value = term;
+
+    searchCareers();
+
+    const database =
+        document.getElementById("careerDatabase");
+
+    if (database) {
+
+        database.scrollIntoView({
+            behavior: "smooth"
+        });
+    }
+}
+
+
+// ============================================================
+// CATEGORY FILTER
+// ============================================================
+
+function applyCategoryFilter(category) {
+
+    if (!category || category === "All Careers") {
+
+        currentCareers = [...careers];
+
+    } else {
+
+        currentCareers =
+            careers.filter(
+                career =>
+                    career.category === category
+            );
+    }
+
+    displayCareers(currentCareers);
+}
+
+
+// ============================================================
+// CATEGORY BUILDER
+// ============================================================
+
+function buildCategoryFilter() {
+
+    const select =
+        document.getElementById("categoryFilter");
+
+    if (!select) return;
+
+    const categories =
+        [...new Set(
+            careers.map(
+                career => career.category
+            )
+        )].sort();
+
+
+    select.innerHTML = `
+        <option value="All Careers">
+            All Careers
+        </option>
+    `;
+
+
+    categories.forEach(category => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = category;
+
+        option.textContent = category;
+
+        select.appendChild(option);
+    });
+}
+
+
+// ============================================================
+// CAREER COUNT
+// ============================================================
+
+function updateCareerCount() {
+
+    const count =
+        document.getElementById("careerCount");
+
+    if (!count) return;
+
+    count.textContent =
+        `${currentCareers.length} careers`;
 }
 
 
@@ -581,6 +1213,11 @@ document.addEventListener(
         if (searchInput) {
 
             searchInput.addEventListener(
+                "input",
+                searchCareers
+            );
+
+            searchInput.addEventListener(
                 "keydown",
                 event => {
 
@@ -592,8 +1229,70 @@ document.addEventListener(
             );
         }
 
+
+        const categoryFilter =
+            document.getElementById("categoryFilter");
+
+        if (categoryFilter) {
+
+            buildCategoryFilter();
+
+            categoryFilter.addEventListener(
+                "change",
+                () => {
+
+                    applyCategoryFilter(
+                        categoryFilter.value
+                    );
+
+                    updateCareerCount();
+                }
+            );
+        }
+
+
+        const sortFilter =
+            document.getElementById("sortFilter");
+
+        if (sortFilter) {
+
+            sortFilter.addEventListener(
+                "change",
+                () => {
+
+                    sortCareers(
+                        sortFilter.value
+                    );
+
+                    updateCareerCount();
+                }
+            );
+        }
+
+
+        const clearButton =
+            document.getElementById("clearComparison");
+
+        if (clearButton) {
+
+            clearButton.addEventListener(
+                "click",
+                clearComparison
+            );
+        }
+
+
+        // Initial display
+
         displayCareers(careers);
 
         updateComparison();
+
+        updateGraph();
+
+        buildCategoryFilter();
+
+        updateCareerCount();
+
     }
 );
