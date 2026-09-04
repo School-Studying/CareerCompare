@@ -1,321 +1,269 @@
-// ============================================================
-// CareerCompare
-// Main application JavaScript
-// ============================================================
+/* =========================================================
+   CAREERCOMPARE
+   Main application
+   ========================================================= */
+
+
+/* =========================================================
+   CAREER DATABASE
+   ========================================================= */
 
 const careers = [
 
-    // =========================
-    // TECHNOLOGY
-    // =========================
+    /* TECHNOLOGY */
+    { name: "Software Developer", salary: 148000, category: "Technology" },
+    { name: "Computer Programmer", salary: 105000, category: "Technology" },
+    { name: "Web Developer", salary: 99000, category: "Technology" },
+    { name: "Web & Digital Interface Designer", salary: 117000, category: "Technology" },
+    { name: "Software QA Analyst", salary: 111000, category: "Technology" },
+    { name: "Computer Systems Analyst", salary: 107000, category: "Technology" },
+    { name: "Information Security Analyst", salary: 125000, category: "Technology" },
+    { name: "Database Administrator", salary: 103000, category: "Technology" },
+    { name: "Database Architect", salary: 123000, category: "Technology" },
+    { name: "Network Administrator", salary: 90000, category: "Technology" },
+    { name: "Network Architect", salary: 130000, category: "Technology" },
+    { name: "Computer Network Support Specialist", salary: 74000, category: "Technology" },
+    { name: "Computer User Support Specialist", salary: 62000, category: "Technology" },
+    { name: "IT Manager", salary: 175000, category: "Technology" },
+    { name: "Computer & Information Research Scientist", salary: 145000, category: "Technology" },
+    { name: "Data Scientist", salary: 115000, category: "Technology" },
+    { name: "Data Analyst", salary: 85000, category: "Technology" },
+    { name: "AI / Machine Learning Engineer", salary: 145000, category: "Technology" },
+    { name: "Cloud Engineer", salary: 130000, category: "Technology" },
+    { name: "DevOps Engineer", salary: 125000, category: "Technology" },
+    { name: "Game Developer", salary: 105000, category: "Technology" },
+    { name: "Mobile App Developer", salary: 115000, category: "Technology" },
+    { name: "Computer Hardware Engineer", salary: 145000, category: "Technology" },
+    { name: "Robotics Engineer", salary: 115000, category: "Technology" },
+    { name: "UX Designer", salary: 105000, category: "Technology" },
 
-    { name: "Software Developer", category: "Technology", salary: 148000 },
-    { name: "Computer Programmer", category: "Technology", salary: 105000 },
-    { name: "Web Developer", category: "Technology", salary: 99000 },
-    { name: "Web & Digital Interface Designer", category: "Technology", salary: 117000 },
-    { name: "Software QA Analyst", category: "Technology", salary: 111000 },
-    { name: "Computer Systems Analyst", category: "Technology", salary: 107000 },
-    { name: "Information Security Analyst", category: "Technology", salary: 125000 },
-    { name: "Database Administrator", category: "Technology", salary: 103000 },
-    { name: "Database Architect", category: "Technology", salary: 123000 },
-    { name: "Network Administrator", category: "Technology", salary: 90000 },
-    { name: "Network Architect", category: "Technology", salary: 130000 },
-    { name: "Computer Network Support Specialist", category: "Technology", salary: 74000 },
-    { name: "Computer User Support Specialist", category: "Technology", salary: 62000 },
-    { name: "IT Manager", category: "Technology", salary: 175000 },
-    { name: "Computer & Information Research Scientist", category: "Technology", salary: 145000 },
-    { name: "Data Scientist", category: "Technology", salary: 115000 },
-    { name: "Data Analyst", category: "Technology", salary: 85000 },
-    { name: "AI / Machine Learning Engineer", category: "Technology", salary: 145000 },
-    { name: "Cloud Engineer", category: "Technology", salary: 130000 },
-    { name: "DevOps Engineer", category: "Technology", salary: 125000 },
-    { name: "Game Developer", category: "Technology", salary: 105000 },
-    { name: "Mobile App Developer", category: "Technology", salary: 115000 },
-    { name: "Computer Hardware Engineer", category: "Technology", salary: 145000 },
-    { name: "Robotics Engineer", category: "Technology", salary: 115000 },
-    { name: "UX Designer", category: "Technology", salary: 105000 },
+    /* HEALTHCARE */
+    { name: "Physician", salary: 240000, category: "Healthcare" },
+    { name: "Surgeon", salary: 360000, category: "Healthcare" },
+    { name: "Dentist", salary: 185000, category: "Healthcare" },
+    { name: "Orthodontist", salary: 250000, category: "Healthcare" },
+    { name: "Pharmacist", salary: 140000, category: "Healthcare" },
+    { name: "Registered Nurse", salary: 93000, category: "Healthcare" },
+    { name: "Nurse Practitioner", salary: 135000, category: "Healthcare" },
+    { name: "Physician Assistant", salary: 135000, category: "Healthcare" },
+    { name: "Physical Therapist", salary: 100000, category: "Healthcare" },
+    { name: "Occupational Therapist", salary: 98000, category: "Healthcare" },
+    { name: "Respiratory Therapist", salary: 78000, category: "Healthcare" },
+    { name: "Radiologic Technologist", salary: 75000, category: "Healthcare" },
+    { name: "Dental Hygienist", salary: 88000, category: "Healthcare" },
+    { name: "Dental Assistant", salary: 50000, category: "Healthcare" },
+    { name: "Medical Assistant", salary: 46000, category: "Healthcare" },
+    { name: "Phlebotomist", salary: 46000, category: "Healthcare" },
+    { name: "Medical Laboratory Scientist", salary: 62000, category: "Healthcare" },
+    { name: "Paramedic", salary: 57000, category: "Healthcare" },
+    { name: "Emergency Medical Technician", salary: 42000, category: "Healthcare" },
+    { name: "Veterinarian", salary: 140000, category: "Healthcare" },
+    { name: "Veterinary Technician", salary: 45000, category: "Healthcare" },
+    { name: "Chiropractor", salary: 90000, category: "Healthcare" },
+    { name: "Psychologist", salary: 95000, category: "Healthcare" },
+    { name: "Optometrist", salary: 135000, category: "Healthcare" },
 
-    // =========================
-    // HEALTHCARE
-    // =========================
+    /* EDUCATION */
+    { name: "Elementary School Teacher", salary: 73000, category: "Education" },
+    { name: "Middle School Teacher", salary: 74000, category: "Education" },
+    { name: "Secondary School Teacher", salary: 76000, category: "Education" },
+    { name: "Special Education Teacher", salary: 75000, category: "Education" },
+    { name: "School Counselor", salary: 65000, category: "Education" },
+    { name: "School Principal", salary: 105000, category: "Education" },
+    { name: "College Professor", salary: 90000, category: "Education" },
+    { name: "Teaching Assistant", salary: 38000, category: "Education" },
+    { name: "Instructional Coordinator", salary: 75000, category: "Education" },
+    { name: "Librarian", salary: 68000, category: "Education" },
+    { name: "Archivist", salary: 60000, category: "Education" },
 
-    { name: "Physician", category: "Healthcare", salary: 240000 },
-    { name: "Surgeon", category: "Healthcare", salary: 360000 },
-    { name: "Dentist", category: "Healthcare", salary: 185000 },
-    { name: "Orthodontist", category: "Healthcare", salary: 250000 },
-    { name: "Pharmacist", category: "Healthcare", salary: 140000 },
-    { name: "Registered Nurse", category: "Healthcare", salary: 93000 },
-    { name: "Nurse Practitioner", category: "Healthcare", salary: 135000 },
-    { name: "Physician Assistant", category: "Healthcare", salary: 135000 },
-    { name: "Physical Therapist", category: "Healthcare", salary: 100000 },
-    { name: "Occupational Therapist", category: "Healthcare", salary: 98000 },
-    { name: "Respiratory Therapist", category: "Healthcare", salary: 78000 },
-    { name: "Radiologic Technologist", category: "Healthcare", salary: 75000 },
-    { name: "Dental Hygienist", category: "Healthcare", salary: 88000 },
-    { name: "Dental Assistant", category: "Healthcare", salary: 50000 },
-    { name: "Medical Assistant", category: "Healthcare", salary: 46000 },
-    { name: "Phlebotomist", category: "Healthcare", salary: 46000 },
-    { name: "Medical Laboratory Scientist", category: "Healthcare", salary: 62000 },
-    { name: "Paramedic", category: "Healthcare", salary: 57000 },
-    { name: "Emergency Medical Technician", category: "Healthcare", salary: 42000 },
-    { name: "Veterinarian", category: "Healthcare", salary: 140000 },
-    { name: "Veterinary Technician", category: "Healthcare", salary: 45000 },
-    { name: "Chiropractor", category: "Healthcare", salary: 90000 },
-    { name: "Psychologist", category: "Healthcare", salary: 95000 },
-    { name: "Optometrist", category: "Healthcare", salary: 135000 },
+    /* ENGINEERING */
+    { name: "Mechanical Engineer", salary: 102000, category: "Engineering" },
+    { name: "Civil Engineer", salary: 99000, category: "Engineering" },
+    { name: "Electrical Engineer", salary: 115000, category: "Engineering" },
+    { name: "Computer Engineer", salary: 125000, category: "Engineering" },
+    { name: "Chemical Engineer", salary: 115000, category: "Engineering" },
+    { name: "Aerospace Engineer", salary: 135000, category: "Engineering" },
+    { name: "Biomedical Engineer", salary: 105000, category: "Engineering" },
+    { name: "Environmental Engineer", salary: 105000, category: "Engineering" },
+    { name: "Industrial Engineer", salary: 100000, category: "Engineering" },
+    { name: "Materials Engineer", salary: 105000, category: "Engineering" },
+    { name: "Nuclear Engineer", salary: 125000, category: "Engineering" },
+    { name: "Petroleum Engineer", salary: 145000, category: "Engineering" },
+    { name: "Architect", salary: 95000, category: "Engineering & Design" },
+    { name: "Landscape Architect", salary: 80000, category: "Engineering & Design" },
 
-    // =========================
-    // EDUCATION
-    // =========================
+    /* BUSINESS & FINANCE */
+    { name: "Accountant", salary: 86000, category: "Business & Finance" },
+    { name: "Auditor", salary: 85000, category: "Business & Finance" },
+    { name: "Financial Analyst", salary: 105000, category: "Business & Finance" },
+    { name: "Financial Manager", salary: 165000, category: "Business & Finance" },
+    { name: "Personal Financial Advisor", salary: 105000, category: "Business & Finance" },
+    { name: "Economist", salary: 120000, category: "Business & Finance" },
+    { name: "Actuary", salary: 141000, category: "Business & Finance" },
+    { name: "Loan Officer", salary: 80000, category: "Business & Finance" },
+    { name: "Bank Teller", salary: 39000, category: "Business & Finance" },
+    { name: "Investment Banker", salary: 150000, category: "Business & Finance" },
+    { name: "Chief Executive", salary: 270000, category: "Business & Finance" },
+    { name: "General & Operations Manager", salary: 135000, category: "Business & Finance" },
+    { name: "Human Resources Manager", salary: 145000, category: "Business & Finance" },
+    { name: "Management Analyst", salary: 105000, category: "Business & Finance" },
+    { name: "Project Manager", salary: 100000, category: "Business & Finance" },
+    { name: "Purchasing Manager", salary: 140000, category: "Business & Finance" },
 
-    { name: "Elementary School Teacher", category: "Education", salary: 73000 },
-    { name: "Middle School Teacher", category: "Education", salary: 74000 },
-    { name: "Secondary School Teacher", category: "Education", salary: 76000 },
-    { name: "Special Education Teacher", category: "Education", salary: 75000 },
-    { name: "School Counselor", category: "Education", salary: 65000 },
-    { name: "School Principal", category: "Education", salary: 105000 },
-    { name: "College Professor", category: "Education", salary: 90000 },
-    { name: "Teaching Assistant", category: "Education", salary: 38000 },
-    { name: "Instructional Coordinator", category: "Education", salary: 75000 },
-    { name: "Librarian", category: "Education", salary: 68000 },
-    { name: "Archivist", category: "Education", salary: 60000 },
+    /* LAW */
+    { name: "Lawyer", salary: 150000, category: "Law" },
+    { name: "Judge", salary: 150000, category: "Law" },
+    { name: "Paralegal", salary: 65000, category: "Law" },
+    { name: "Legal Assistant", salary: 55000, category: "Law" },
+    { name: "Court Reporter", salary: 65000, category: "Law" },
+    { name: "Mediator", salary: 70000, category: "Law" },
 
-    // =========================
-    // ENGINEERING
-    // =========================
+    /* SCIENCE */
+    { name: "Biologist", salary: 108000, category: "Science" },
+    { name: "Microbiologist", salary: 98000, category: "Science" },
+    { name: "Biochemist", salary: 130000, category: "Science" },
+    { name: "Chemist", salary: 85000, category: "Science" },
+    { name: "Physicist", salary: 145000, category: "Science" },
+    { name: "Astronomer", salary: 130000, category: "Science" },
+    { name: "Geologist", salary: 100000, category: "Science" },
+    { name: "Meteorologist", salary: 95000, category: "Science" },
+    { name: "Zoologist", salary: 83000, category: "Science" },
+    { name: "Wildlife Biologist", salary: 83000, category: "Science" },
+    { name: "Environmental Scientist", salary: 80000, category: "Science" },
+    { name: "Food Scientist", salary: 95000, category: "Science" },
+    { name: "Forensic Scientist", salary: 70000, category: "Science" },
 
-    { name: "Mechanical Engineer", category: "Engineering", salary: 102000 },
-    { name: "Civil Engineer", category: "Engineering", salary: 99000 },
-    { name: "Electrical Engineer", category: "Engineering", salary: 115000 },
-    { name: "Computer Engineer", category: "Engineering", salary: 125000 },
-    { name: "Chemical Engineer", category: "Engineering", salary: 115000 },
-    { name: "Aerospace Engineer", category: "Engineering", salary: 135000 },
-    { name: "Biomedical Engineer", category: "Engineering", salary: 105000 },
-    { name: "Environmental Engineer", category: "Engineering", salary: 105000 },
-    { name: "Industrial Engineer", category: "Engineering", salary: 100000 },
-    { name: "Materials Engineer", category: "Engineering", salary: 105000 },
-    { name: "Nuclear Engineer", category: "Engineering", salary: 125000 },
-    { name: "Petroleum Engineer", category: "Engineering", salary: 145000 },
-    { name: "Architect", category: "Engineering & Design", salary: 95000 },
-    { name: "Landscape Architect", category: "Engineering & Design", salary: 80000 },
+    /* TRADES */
+    { name: "Electrician", salary: 71000, category: "Trades" },
+    { name: "Plumber", salary: 70000, category: "Trades" },
+    { name: "HVAC Technician", salary: 65000, category: "Trades" },
+    { name: "Carpenter", salary: 60000, category: "Trades" },
+    { name: "Welder", salary: 55000, category: "Trades" },
+    { name: "Machinist", salary: 60000, category: "Trades" },
+    { name: "Auto Mechanic", salary: 55000, category: "Trades" },
+    { name: "Diesel Mechanic", salary: 60000, category: "Trades" },
+    { name: "Industrial Machinery Mechanic", salary: 68000, category: "Trades" },
+    { name: "Elevator Installer & Repairer", salary: 105000, category: "Trades" },
+    { name: "Construction Equipment Operator", salary: 66000, category: "Trades" },
+    { name: "Construction Manager", salary: 110000, category: "Trades & Construction" },
+    { name: "Construction Laborer", salary: 47000, category: "Trades & Construction" },
+    { name: "Bricklayer", salary: 67000, category: "Trades" },
+    { name: "Roofer", salary: 50000, category: "Trades" },
 
-    // =========================
-    // BUSINESS & FINANCE
-    // =========================
+    /* PUBLIC SERVICE */
+    { name: "Police Officer", salary: 79000, category: "Public Service" },
+    { name: "Detective", salary: 90000, category: "Public Service" },
+    { name: "Firefighter", salary: 60000, category: "Public Service" },
+    { name: "Fire Chief", salary: 100000, category: "Public Service" },
+    { name: "Corrections Officer", salary: 55000, category: "Public Service" },
+    { name: "Social Worker", salary: 60000, category: "Public Service" },
+    { name: "Urban Planner", salary: 85000, category: "Public Service" },
+    { name: "City Manager", salary: 110000, category: "Public Service" },
+    { name: "Government Program Analyst", salary: 85000, category: "Public Service" },
 
-    { name: "Accountant", category: "Business & Finance", salary: 86000 },
-    { name: "Auditor", category: "Business & Finance", salary: 85000 },
-    { name: "Financial Analyst", category: "Business & Finance", salary: 105000 },
-    { name: "Financial Manager", category: "Business & Finance", salary: 165000 },
-    { name: "Personal Financial Advisor", category: "Business & Finance", salary: 105000 },
-    { name: "Economist", category: "Business & Finance", salary: 120000 },
-    { name: "Actuary", category: "Business & Finance", salary: 141000 },
-    { name: "Loan Officer", category: "Business & Finance", salary: 80000 },
-    { name: "Bank Teller", category: "Business & Finance", salary: 39000 },
-    { name: "Investment Banker", category: "Business & Finance", salary: 150000 },
-    { name: "Chief Executive", category: "Business & Finance", salary: 270000 },
-    { name: "General & Operations Manager", category: "Business & Finance", salary: 135000 },
-    { name: "Human Resources Manager", category: "Business & Finance", salary: 145000 },
-    { name: "Management Analyst", category: "Business & Finance", salary: 105000 },
-    { name: "Project Manager", category: "Business & Finance", salary: 100000 },
-    { name: "Purchasing Manager", category: "Business & Finance", salary: 140000 },
+    /* TRANSPORTATION */
+    { name: "Commercial Airline Pilot", salary: 230000, category: "Transportation" },
+    { name: "Air Traffic Controller", salary: 145000, category: "Transportation" },
+    { name: "Flight Attendant", salary: 75000, category: "Transportation" },
+    { name: "Truck Driver", salary: 60000, category: "Transportation" },
+    { name: "Bus Driver", salary: 50000, category: "Transportation" },
+    { name: "Train Conductor", salary: 70000, category: "Transportation" },
+    { name: "Railroad Engineer", salary: 80000, category: "Transportation" },
+    { name: "Ship Captain", salary: 100000, category: "Transportation" },
+    { name: "Automotive Service Technician", salary: 55000, category: "Transportation" },
 
-    // =========================
-    // LAW
-    // =========================
+    /* ARTS & DESIGN */
+    { name: "Graphic Designer", salary: 62000, category: "Arts & Design" },
+    { name: "Art Director", salary: 115000, category: "Arts & Design" },
+    { name: "Interior Designer", salary: 65000, category: "Arts & Design" },
+    { name: "Industrial Designer", salary: 80000, category: "Arts & Design" },
+    { name: "Fashion Designer", salary: 80000, category: "Arts & Design" },
+    { name: "Photographer", salary: 60000, category: "Arts & Design" },
+    { name: "Animator", salary: 85000, category: "Arts & Design" },
+    { name: "Illustrator", salary: 65000, category: "Arts & Design" },
+    { name: "Art Teacher", salary: 70000, category: "Arts & Design" },
 
-    { name: "Lawyer", category: "Law", salary: 150000 },
-    { name: "Judge", category: "Law", salary: 150000 },
-    { name: "Paralegal", category: "Law", salary: 65000 },
-    { name: "Legal Assistant", category: "Law", salary: 55000 },
-    { name: "Court Reporter", category: "Law", salary: 65000 },
-    { name: "Mediator", category: "Law", salary: 70000 },
+    /* MEDIA */
+    { name: "Journalist", salary: 65000, category: "Media & Communication" },
+    { name: "News Reporter", salary: 60000, category: "Media & Communication" },
+    { name: "Public Relations Specialist", salary: 75000, category: "Media & Communication" },
+    { name: "Public Relations Manager", salary: 135000, category: "Media & Communication" },
+    { name: "Technical Writer", salary: 85000, category: "Media & Communication" },
+    { name: "Editor", salary: 75000, category: "Media & Communication" },
+    { name: "Writer", salary: 80000, category: "Media & Communication" },
+    { name: "Broadcast Technician", salary: 55000, category: "Media & Communication" },
+    { name: "Producer", salary: 85000, category: "Media & Communication" },
 
-    // =========================
-    // SCIENCE
-    // =========================
+    /* MARKETING & SALES */
+    { name: "Marketing Specialist", salary: 75000, category: "Marketing & Sales" },
+    { name: "Marketing Manager", salary: 155000, category: "Marketing & Sales" },
+    { name: "Sales Manager", salary: 145000, category: "Marketing & Sales" },
+    { name: "Advertising Manager", salary: 150000, category: "Marketing & Sales" },
+    { name: "Sales Representative", salary: 70000, category: "Marketing & Sales" },
+    { name: "Real Estate Agent", salary: 70000, category: "Marketing & Sales" },
+    { name: "Real Estate Broker", salary: 90000, category: "Marketing & Sales" },
+    { name: "Market Research Analyst", salary: 80000, category: "Marketing & Sales" },
 
-    { name: "Biologist", category: "Science", salary: 108000 },
-    { name: "Microbiologist", category: "Science", salary: 98000 },
-    { name: "Biochemist", category: "Science", salary: 130000 },
-    { name: "Chemist", category: "Science", salary: 85000 },
-    { name: "Physicist", category: "Science", salary: 145000 },
-    { name: "Astronomer", category: "Science", salary: 130000 },
-    { name: "Geologist", category: "Science", salary: 100000 },
-    { name: "Meteorologist", category: "Science", salary: 95000 },
-    { name: "Zoologist", category: "Science", salary: 83000 },
-    { name: "Wildlife Biologist", category: "Science", salary: 83000 },
-    { name: "Environmental Scientist", category: "Science", salary: 80000 },
-    { name: "Food Scientist", category: "Science", salary: 95000 },
-    { name: "Forensic Scientist", category: "Science", salary: 70000 },
+    /* SOCIAL & HUMAN SERVICES */
+    { name: "Mental Health Counselor", salary: 55000, category: "Social & Human Services" },
+    { name: "Marriage & Family Therapist", salary: 60000, category: "Social & Human Services" },
+    { name: "Community Health Worker", salary: 48000, category: "Social & Human Services" },
+    { name: "Rehabilitation Counselor", salary: 50000, category: "Social & Human Services" },
 
-    // =========================
-    // TRADES
-    // =========================
+    /* AGRICULTURE */
+    { name: "Agricultural Scientist", salary: 91000, category: "Agriculture & Environment" },
+    { name: "Agronomist", salary: 85000, category: "Agriculture & Environment" },
+    { name: "Conservation Scientist", salary: 78000, category: "Agriculture & Environment" },
+    { name: "Forester", salary: 78000, category: "Agriculture & Environment" },
+    { name: "Environmental Technician", salary: 55000, category: "Agriculture & Environment" },
+    { name: "Agricultural Inspector", salary: 65000, category: "Agriculture & Environment" },
+    { name: "Farm Manager", salary: 80000, category: "Agriculture & Environment" },
 
-    { name: "Electrician", category: "Trades", salary: 71000 },
-    { name: "Plumber", category: "Trades", salary: 70000 },
-    { name: "HVAC Technician", category: "Trades", salary: 65000 },
-    { name: "Carpenter", category: "Trades", salary: 60000 },
-    { name: "Welder", category: "Trades", salary: 55000 },
-    { name: "Machinist", category: "Trades", salary: 60000 },
-    { name: "Auto Mechanic", category: "Trades", salary: 55000 },
-    { name: "Diesel Mechanic", category: "Trades", salary: 60000 },
-    { name: "Industrial Machinery Mechanic", category: "Trades", salary: 68000 },
-    { name: "Elevator Installer & Repairer", category: "Trades", salary: 105000 },
-    { name: "Construction Equipment Operator", category: "Trades", salary: 66000 },
-    { name: "Construction Manager", category: "Trades & Construction", salary: 110000 },
-    { name: "Construction Laborer", category: "Trades & Construction", salary: 47000 },
-    { name: "Bricklayer", category: "Trades", salary: 67000 },
-    { name: "Roofer", category: "Trades", salary: 50000 },
+    /* FOOD & HOSPITALITY */
+    { name: "Chef", salary: 60000, category: "Food & Hospitality" },
+    { name: "Head Chef", salary: 70000, category: "Food & Hospitality" },
+    { name: "Restaurant Manager", salary: 65000, category: "Food & Hospitality" },
+    { name: "Hotel Manager", salary: 80000, category: "Food & Hospitality" },
+    { name: "Baker", salary: 40000, category: "Food & Hospitality" },
+    { name: "Cook", salary: 35000, category: "Food & Hospitality" },
+    { name: "Bartender", salary: 40000, category: "Food & Hospitality" },
+    { name: "Waiter / Waitress", salary: 35000, category: "Food & Hospitality" },
 
-    // =========================
-    // PUBLIC SERVICE
-    // =========================
+    /* SPORTS */
+    { name: "Athletic Trainer", salary: 60000, category: "Sports & Recreation" },
+    { name: "Fitness Trainer", salary: 50000, category: "Sports & Recreation" },
+    { name: "Sports Coach", salary: 55000, category: "Sports & Recreation" },
+    { name: "Recreation Worker", salary: 40000, category: "Sports & Recreation" },
+    { name: "Sports Official", salary: 45000, category: "Sports & Recreation" },
 
-    { name: "Police Officer", category: "Public Service", salary: 79000 },
-    { name: "Detective", category: "Public Service", salary: 90000 },
-    { name: "Firefighter", category: "Public Service", salary: 60000 },
-    { name: "Fire Chief", category: "Public Service", salary: 100000 },
-    { name: "Corrections Officer", category: "Public Service", salary: 55000 },
-    { name: "Social Worker", category: "Public Service", salary: 60000 },
-    { name: "Urban Planner", category: "Public Service", salary: 85000 },
-    { name: "City Manager", category: "Public Service", salary: 110000 },
-    { name: "Government Program Analyst", category: "Public Service", salary: 85000 },
-
-    // =========================
-    // TRANSPORTATION
-    // =========================
-
-    { name: "Commercial Airline Pilot", category: "Transportation", salary: 230000 },
-    { name: "Air Traffic Controller", category: "Transportation", salary: 145000 },
-    { name: "Flight Attendant", category: "Transportation", salary: 75000 },
-    { name: "Truck Driver", category: "Transportation", salary: 60000 },
-    { name: "Bus Driver", category: "Transportation", salary: 50000 },
-    { name: "Train Conductor", category: "Transportation", salary: 70000 },
-    { name: "Railroad Engineer", category: "Transportation", salary: 80000 },
-    { name: "Ship Captain", category: "Transportation", salary: 100000 },
-    { name: "Automotive Service Technician", category: "Transportation", salary: 55000 },
-
-    // =========================
-    // ARTS & DESIGN
-    // =========================
-
-    { name: "Graphic Designer", category: "Arts & Design", salary: 62000 },
-    { name: "Art Director", category: "Arts & Design", salary: 115000 },
-    { name: "Interior Designer", category: "Arts & Design", salary: 65000 },
-    { name: "Industrial Designer", category: "Arts & Design", salary: 80000 },
-    { name: "Fashion Designer", category: "Arts & Design", salary: 80000 },
-    { name: "Photographer", category: "Arts & Design", salary: 60000 },
-    { name: "Animator", category: "Arts & Design", salary: 85000 },
-    { name: "Illustrator", category: "Arts & Design", salary: 65000 },
-    { name: "Art Teacher", category: "Arts & Design", salary: 70000 },
-
-    // =========================
-    // MEDIA & COMMUNICATION
-    // =========================
-
-    { name: "Journalist", category: "Media & Communication", salary: 65000 },
-    { name: "News Reporter", category: "Media & Communication", salary: 60000 },
-    { name: "Public Relations Specialist", category: "Media & Communication", salary: 75000 },
-    { name: "Public Relations Manager", category: "Media & Communication", salary: 135000 },
-    { name: "Technical Writer", category: "Media & Communication", salary: 85000 },
-    { name: "Editor", category: "Media & Communication", salary: 75000 },
-    { name: "Writer", category: "Media & Communication", salary: 80000 },
-    { name: "Broadcast Technician", category: "Media & Communication", salary: 55000 },
-    { name: "Producer", category: "Media & Communication", salary: 85000 },
-
-    // =========================
-    // MARKETING & SALES
-    // =========================
-
-    { name: "Marketing Specialist", category: "Marketing & Sales", salary: 75000 },
-    { name: "Marketing Manager", category: "Marketing & Sales", salary: 155000 },
-    { name: "Sales Manager", category: "Marketing & Sales", salary: 145000 },
-    { name: "Advertising Manager", category: "Marketing & Sales", salary: 150000 },
-    { name: "Sales Representative", category: "Marketing & Sales", salary: 70000 },
-    { name: "Real Estate Agent", category: "Marketing & Sales", salary: 70000 },
-    { name: "Real Estate Broker", category: "Marketing & Sales", salary: 90000 },
-    { name: "Market Research Analyst", category: "Marketing & Sales", salary: 80000 },
-
-    // =========================
-    // SOCIAL & HUMAN SERVICES
-    // =========================
-
-    { name: "Psychologist", category: "Social & Human Services", salary: 95000 },
-    { name: "Mental Health Counselor", category: "Social & Human Services", salary: 55000 },
-    { name: "Marriage & Family Therapist", category: "Social & Human Services", salary: 60000 },
-    { name: "Social Worker", category: "Social & Human Services", salary: 60000 },
-    { name: "Community Health Worker", category: "Social & Human Services", salary: 48000 },
-    { name: "Rehabilitation Counselor", category: "Social & Human Services", salary: 50000 },
-
-    // =========================
-    // AGRICULTURE & ENVIRONMENT
-    // =========================
-
-    { name: "Agricultural Scientist", category: "Agriculture & Environment", salary: 91000 },
-    { name: "Agronomist", category: "Agriculture & Environment", salary: 85000 },
-    { name: "Conservation Scientist", category: "Agriculture & Environment", salary: 78000 },
-    { name: "Forester", category: "Agriculture & Environment", salary: 78000 },
-    { name: "Environmental Technician", category: "Agriculture & Environment", salary: 55000 },
-    { name: "Agricultural Inspector", category: "Agriculture & Environment", salary: 65000 },
-    { name: "Farm Manager", category: "Agriculture & Environment", salary: 80000 },
-
-    // =========================
-    // FOOD & HOSPITALITY
-    // =========================
-
-    { name: "Chef", category: "Food & Hospitality", salary: 60000 },
-    { name: "Head Chef", category: "Food & Hospitality", salary: 70000 },
-    { name: "Restaurant Manager", category: "Food & Hospitality", salary: 65000 },
-    { name: "Hotel Manager", category: "Food & Hospitality", salary: 80000 },
-    { name: "Baker", category: "Food & Hospitality", salary: 40000 },
-    { name: "Cook", category: "Food & Hospitality", salary: 35000 },
-    { name: "Bartender", category: "Food & Hospitality", salary: 40000 },
-    { name: "Waiter / Waitress", category: "Food & Hospitality", salary: 35000 },
-
-    // =========================
-    // SPORTS & RECREATION
-    // =========================
-
-    { name: "Athletic Trainer", category: "Sports & Recreation", salary: 60000 },
-    { name: "Fitness Trainer", category: "Sports & Recreation", salary: 50000 },
-    { name: "Sports Coach", category: "Sports & Recreation", salary: 55000 },
-    { name: "Recreation Worker", category: "Sports & Recreation", salary: 40000 },
-    { name: "Sports Official", category: "Sports & Recreation", salary: 45000 },
-
-    // =========================
-    // PERSONAL SERVICES
-    // =========================
-
-    { name: "Hairdresser", category: "Personal Services", salary: 45000 },
-    { name: "Barber", category: "Personal Services", salary: 45000 },
-    { name: "Esthetician", category: "Personal Services", salary: 40000 },
-    { name: "Massage Therapist", category: "Personal Services", salary: 55000 },
-    { name: "Personal Trainer", category: "Personal Services", salary: 50000 }
+    /* PERSONAL SERVICES */
+    { name: "Hairdresser", salary: 45000, category: "Personal Services" },
+    { name: "Barber", salary: 45000, category: "Personal Services" },
+    { name: "Esthetician", salary: 40000, category: "Personal Services" },
+    { name: "Massage Therapist", salary: 55000, category: "Personal Services" },
+    { name: "Personal Trainer", salary: 50000, category: "Personal Services" }
 ];
 
 
-// ============================================================
-// STATE
-// ============================================================
+/* =========================================================
+   STATE
+   ========================================================= */
 
 let selectedCareers = [];
 let currentCareers = [...careers];
 
+const graphYears = [];
 
-// ============================================================
-// GRAPH SETTINGS
-// ============================================================
-
-const GRAPH_START_YEAR = 2026;
-const GRAPH_END_YEAR = 2035;
+for (let year = 2026; year <= 2035; year++) {
+    graphYears.push(year);
+}
 
 
-// Approximate annual salary growth assumptions.
-// These are intentionally labeled as estimates.
-// Later, official historical BLS data can replace this.
-const GROWTH_RATES = {
+/* =========================================================
+   ESTIMATED GROWTH RATES
+   ========================================================= */
+
+const growthRates = {
     "Technology": 0.035,
     "Healthcare": 0.030,
     "Education": 0.030,
@@ -339,154 +287,132 @@ const GROWTH_RATES = {
 };
 
 
-// ============================================================
-// HELPERS
-// ============================================================
+/* =========================================================
+   HELPERS
+   ========================================================= */
 
-function formatSalary(amount) {
-
-    if (amount >= 1000000) {
-        return "$" + (amount / 1000000).toFixed(1) + "M";
-    }
-
-    return "$" + Math.round(amount / 1000) + "K";
-}
-
-
-function formatFullSalary(amount) {
-
-    return "$" + Math.round(amount).toLocaleString();
-}
-
-
-function escapeHTML(value) {
-
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+function formatSalary(value) {
+    return "$" + Math.round(value).toLocaleString();
 }
 
 
 function getGrowthRate(career) {
-
-    return GROWTH_RATES[career.category] || 0.03;
+    return growthRates[career.category] || 0.030;
 }
 
 
 function projectedSalary(career, year) {
+    const yearsFrom2026 = year - 2026;
+    const rate = getGrowthRate(career);
 
-    const yearsElapsed = year - GRAPH_START_YEAR;
-
-    return career.salary *
-        Math.pow(
-            1 + getGrowthRate(career),
-            yearsElapsed
-        );
+    return career.salary * Math.pow(1 + rate, yearsFrom2026);
 }
 
 
-// ============================================================
-// DISPLAY CAREERS
-// ============================================================
+/* =========================================================
+   DISPLAY CAREERS
+   ========================================================= */
 
-function displayCareers(list) {
+function displayCareers(list = currentCareers) {
 
     const container = document.getElementById("careerList");
 
-    if (!container) return;
-
-    container.innerHTML = "";
+    if (!container) {
+        console.warn("careerList was not found.");
+        return;
+    }
 
     if (list.length === 0) {
 
         container.innerHTML = `
-            <div class="career">
+            <div class="empty-state">
                 <h3>No careers found</h3>
-                <div class="category">
-                    Try another search.
-                </div>
+                <p>Try a different search or category.</p>
             </div>
         `;
 
         return;
     }
 
-    list.forEach(career => {
 
-        const card = document.createElement("div");
+    container.innerHTML = list.map((career, index) => {
 
-        card.className = "career";
-
-        const isSelected =
-            selectedCareers.some(
-                selected => selected.name === career.name
-            );
-
-        if (isSelected) {
-            card.style.borderColor = "#6c8cff";
-        }
-
-        card.innerHTML = `
-
-            <h3>
-                ${escapeHTML(career.name)}
-            </h3>
-
-            <div class="category">
-                ${escapeHTML(career.category)}
-            </div>
-
-            <div class="salary">
-                ${formatSalary(career.salary)}
-            </div>
-
-            <div class="salary-label">
-                Average annual salary
-            </div>
-
-            <button
-                class="select-career-button"
-                style="margin-top:15px;width:100%;"
-            >
-                ${isSelected ? "✓ Selected" : "Compare"}
-            </button>
-        `;
-
-        const button =
-            card.querySelector(".select-career-button");
-
-        button.addEventListener("click", () => {
-            toggleCareer(career);
-        });
-
-        container.appendChild(card);
-    });
-}
-
-
-// ============================================================
-// CAREER SELECTION
-// ============================================================
-
-function toggleCareer(career) {
-
-    const index =
-        selectedCareers.findIndex(
+        const isSelected = selectedCareers.some(
             selected => selected.name === career.name
         );
 
-    if (index >= 0) {
+        return `
+            <div class="career-card ${isSelected ? "selected" : ""}">
+                
+                <h3>${escapeHTML(career.name)}</h3>
 
-        selectedCareers.splice(index, 1);
+                <span class="career-category">
+                    ${escapeHTML(career.category)}
+                </span>
+
+                <div class="salary">
+                    ${formatSalary(career.salary)}
+                </div>
+
+                <div class="salary-label">
+                    Estimated annual salary
+                </div>
+
+                <button
+                    class="compare-button"
+                    onclick="toggleCareer(${index})"
+                >
+                    ${isSelected ? "✓ Added to comparison" : "+ Compare"}
+                </button>
+
+            </div>
+        `;
+    }).join("");
+}
+
+
+/* =========================================================
+   SAFE HTML HELPER
+   ========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   CAREER SELECTION
+   ========================================================= */
+
+function toggleCareer(index) {
+
+    const career = currentCareers[index];
+
+    if (!career) {
+        return;
+    }
+
+
+    const existingIndex = selectedCareers.findIndex(
+        selected => selected.name === career.name
+    );
+
+
+    if (existingIndex !== -1) {
+
+        selectedCareers.splice(existingIndex, 1);
 
     } else {
 
         if (selectedCareers.length >= 5) {
 
-            alert("You can compare up to 5 careers.");
+            alert("You can compare up to 5 careers at a time.");
 
             return;
         }
@@ -494,617 +420,651 @@ function toggleCareer(career) {
         selectedCareers.push(career);
     }
 
+
     displayCareers(currentCareers);
-
     updateComparison();
-
     updateGraph();
 }
 
 
-// ============================================================
-// SEARCH
-// ============================================================
+/* =========================================================
+   SEARCH
+   ========================================================= */
 
 function searchCareers() {
 
-    const input =
-        document.getElementById("searchInput");
+    const searchInput = document.getElementById("careerSearch");
 
-    if (!input) return;
-
-    const search =
-        input.value
-            .toLowerCase()
-            .trim();
-
-    currentCareers =
-        careers.filter(career =>
-
-            career.name
-                .toLowerCase()
-                .includes(search)
-
-            ||
-
-            career.category
-                .toLowerCase()
-                .includes(search)
-        );
-
-    displayCareers(currentCareers);
-}
-
-
-// ============================================================
-// SORTING
-// ============================================================
-
-function sortCareers(type) {
-
-    let sorted = [...currentCareers];
-
-    if (type === "salary-high") {
-
-        sorted.sort(
-            (a, b) => b.salary - a.salary
-        );
-
-    } else if (type === "salary-low") {
-
-        sorted.sort(
-            (a, b) => a.salary - b.salary
-        );
-
-    } else if (type === "name") {
-
-        sorted.sort(
-            (a, b) =>
-                a.name.localeCompare(b.name)
-        );
+    if (!searchInput) {
+        return;
     }
 
-    currentCareers = sorted;
+    const query = searchInput.value
+        .trim()
+        .toLowerCase();
+
+
+    currentCareers = careers.filter(career => {
+
+        return (
+            career.name.toLowerCase().includes(query) ||
+            career.category.toLowerCase().includes(query)
+        );
+
+    });
+
+
+    applyActiveCategoryAndSort();
+
+    updateCareerCount();
+}
+
+
+/* =========================================================
+   CATEGORY FILTER
+   ========================================================= */
+
+function buildCategoryFilter() {
+
+    const filter = document.getElementById("categoryFilter");
+
+    if (!filter) {
+        return;
+    }
+
+
+    const categories = [
+        ...new Set(careers.map(career => career.category))
+    ].sort();
+
+
+    filter.innerHTML = `
+        <option value="all">All categories</option>
+        ${categories.map(category => `
+            <option value="${escapeHTML(category)}">
+                ${escapeHTML(category)}
+            </option>
+        `).join("")}
+    `;
+}
+
+
+function applyCategoryFilter() {
+    applyActiveCategoryAndSort();
+    updateCareerCount();
+}
+
+
+function applyActiveCategoryAndSort() {
+
+    const searchInput = document.getElementById("careerSearch");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const sortFilter = document.getElementById("sortFilter");
+
+
+    const query = searchInput
+        ? searchInput.value.trim().toLowerCase()
+        : "";
+
+
+    const category = categoryFilter
+        ? categoryFilter.value
+        : "all";
+
+
+    let filtered = careers.filter(career => {
+
+        const matchesSearch =
+            !query ||
+            career.name.toLowerCase().includes(query) ||
+            career.category.toLowerCase().includes(query);
+
+
+        const matchesCategory =
+            category === "all" ||
+            career.category === category;
+
+
+        return matchesSearch && matchesCategory;
+    });
+
+
+    if (sortFilter) {
+
+        const sort = sortFilter.value;
+
+        if (sort === "salary-high") {
+
+            filtered.sort((a, b) => b.salary - a.salary);
+
+        } else if (sort === "salary-low") {
+
+            filtered.sort((a, b) => a.salary - b.salary);
+
+        } else if (sort === "name") {
+
+            filtered.sort((a, b) =>
+                a.name.localeCompare(b.name)
+            );
+        }
+    }
+
+
+    currentCareers = filtered;
 
     displayCareers(currentCareers);
 }
 
 
-// ============================================================
-// COMPARISON CARDS
-// ============================================================
+function sortCareers() {
+
+    applyActiveCategoryAndSort();
+    updateCareerCount();
+}
+
+
+/* =========================================================
+   CAREER COUNT
+   ========================================================= */
+
+function updateCareerCount() {
+
+    const count = document.getElementById("careerCount");
+
+    if (!count) {
+        return;
+    }
+
+    count.textContent =
+        `${currentCareers.length} career${currentCareers.length === 1 ? "" : "s"}`;
+}
+
+
+/* =========================================================
+   COMPARISON
+   ========================================================= */
 
 function updateComparison() {
 
-    const comparison =
-        document.getElementById("comparison");
+    const comparison = document.getElementById("comparison");
 
-    if (!comparison) return;
+    if (!comparison) {
+        return;
+    }
+
 
     if (selectedCareers.length === 0) {
 
         comparison.innerHTML = `
-            <p>
-                Select careers above to compare them.
-            </p>
-        `;
-
-        updateGraph();
-
-        return;
-    }
-
-    comparison.innerHTML = selectedCareers
-        .map(career => {
-
-            const futureSalary =
-                projectedSalary(
-                    career,
-                    GRAPH_END_YEAR
-                );
-
-            const increase =
-                futureSalary - career.salary;
-
-            return `
-
-                <div class="career">
-
-                    <h3>
-                        ${escapeHTML(career.name)}
-                    </h3>
-
-                    <div class="category">
-                        ${escapeHTML(career.category)}
-                    </div>
-
-                    <div class="salary">
-                        ${formatSalary(career.salary)}
-                    </div>
-
-                    <div class="salary-label">
-                        Starting salary
-                    </div>
-
-                    <div style="
-                        margin-top:14px;
-                        font-size:14px;
-                        opacity:.75;
-                    ">
-                        2035 estimate
-                    </div>
-
-                    <div style="
-                        font-size:22px;
-                        font-weight:800;
-                        margin-top:3px;
-                    ">
-                        ${formatSalary(futureSalary)}
-                    </div>
-
-                    <div style="
-                        margin-top:8px;
-                        font-size:13px;
-                        opacity:.7;
-                    ">
-                        +${formatSalary(increase)}
-                        estimated increase
-                    </div>
-
-                </div>
-
-            `;
-        })
-        .join("");
-
-    updateGraph();
-}
-
-
-// ============================================================
-// GRAPH
-// ============================================================
-
-function updateGraph() {
-
-    const graph =
-        document.getElementById("salaryGraph");
-
-    if (!graph) return;
-
-    if (selectedCareers.length === 0) {
-
-        graph.innerHTML = `
-            <div class="graph-empty">
-                <div style="font-size:42px;">📈</div>
-
-                <h3>No careers selected</h3>
-
-                <p>
-                    Select two or more careers above
-                    to see their salary trends.
-                </p>
+            <div class="empty-state">
+                <h3>Nothing to compare yet</h3>
+                <p>Select up to 5 careers above to compare them.</p>
             </div>
         `;
 
         return;
     }
 
-    const width = 1000;
-    const height = 500;
 
-    const paddingLeft = 75;
-    const paddingRight = 30;
-    const paddingTop = 35;
-    const paddingBottom = 65;
+    comparison.innerHTML = `
+        <div class="comparison-grid">
 
-    const chartWidth =
-        width - paddingLeft - paddingRight;
+            ${selectedCareers.map(career => {
 
-    const chartHeight =
-        height - paddingTop - paddingBottom;
+                const futureSalary =
+                    projectedSalary(career, 2035);
 
+                const increase =
+                    futureSalary - career.salary;
 
-    // --------------------------------------------
-    // Find maximum salary
-    // --------------------------------------------
+                return `
+                    <div class="comparison-card">
 
-    let maxSalary = 0;
+                        <h3>${escapeHTML(career.name)}</h3>
 
-    selectedCareers.forEach(career => {
+                        <div class="comparison-stat">
+                            <div class="comparison-stat-label">
+                                Starting salary
+                            </div>
 
-        const future =
-            projectedSalary(
-                career,
-                GRAPH_END_YEAR
-            );
+                            <div class="comparison-stat-value">
+                                ${formatSalary(career.salary)}
+                            </div>
+                        </div>
 
-        maxSalary =
-            Math.max(
-                maxSalary,
-                future
-            );
-    });
+                        <div class="comparison-stat">
+                            <div class="comparison-stat-label">
+                                2035 estimate
+                            </div>
 
+                            <div class="comparison-stat-value">
+                                ${formatSalary(futureSalary)}
+                            </div>
+                        </div>
 
-    // Give graph some breathing room
-    maxSalary *= 1.1;
+                        <div class="comparison-stat">
+                            <div class="comparison-stat-label">
+                                Estimated increase
+                            </div>
 
-
-    // --------------------------------------------
-    // SVG coordinates
-    // --------------------------------------------
-
-    function xForYear(year) {
-
-        const position =
-            (year - GRAPH_START_YEAR) /
-            (GRAPH_END_YEAR - GRAPH_START_YEAR);
-
-        return paddingLeft +
-            position * chartWidth;
-    }
-
-
-    function yForSalary(salary) {
-
-        return paddingTop +
-            chartHeight -
-            (salary / maxSalary) *
-            chartHeight;
-    }
-
-
-    // --------------------------------------------
-    // Build SVG
-    // --------------------------------------------
-
-    let svg = `
-
-        <svg
-            viewBox="0 0 ${width} ${height}"
-            width="100%"
-            height="100%"
-            preserveAspectRatio="none"
-            style="
-                overflow:visible;
-                font-family:inherit;
-            "
-        >
-
-            <!-- Background -->
-
-            <rect
-                x="0"
-                y="0"
-                width="${width}"
-                height="${height}"
-                rx="18"
-                fill="transparent"
-            />
-
-    `;
-
-
-    // --------------------------------------------
-    // Horizontal grid lines
-    // --------------------------------------------
-
-    const gridLines = 5;
-
-    for (let i = 0; i <= gridLines; i++) {
-
-        const salary =
-            (maxSalary / gridLines) * i;
-
-        const y =
-            yForSalary(salary);
-
-        svg += `
-
-            <line
-                x1="${paddingLeft}"
-                y1="${y}"
-                x2="${width - paddingRight}"
-                y2="${y}"
-                stroke="currentColor"
-                opacity="0.10"
-                stroke-width="1"
-            />
-
-            <text
-                x="${paddingLeft - 12}"
-                y="${y + 5}"
-                text-anchor="end"
-                font-size="12"
-                fill="currentColor"
-                opacity="0.55"
-            >
-                ${formatSalary(salary)}
-            </text>
-
-        `;
-    }
-
-
-    // --------------------------------------------
-    // Years
-    // --------------------------------------------
-
-    for (
-        let year = GRAPH_START_YEAR;
-        year <= GRAPH_END_YEAR;
-        year++
-    ) {
-
-        const x =
-            xForYear(year);
-
-        svg += `
-
-            <line
-                x1="${x}"
-                y1="${paddingTop}"
-                x2="${x}"
-                y2="${height - paddingBottom}"
-                stroke="currentColor"
-                opacity="0.05"
-                stroke-width="1"
-            />
-
-            <text
-                x="${x}"
-                y="${height - 28}"
-                text-anchor="middle"
-                font-size="12"
-                fill="currentColor"
-                opacity="0.60"
-            >
-                ${year}
-            </text>
-
-        `;
-    }
-
-
-    // --------------------------------------------
-    // Career lines
-    // --------------------------------------------
-
-    selectedCareers.forEach((career, careerIndex) => {
-
-        const growth =
-            getGrowthRate(career);
-
-        const points = [];
-
-        for (
-            let year = GRAPH_START_YEAR;
-            year <= GRAPH_END_YEAR;
-            year++
-        ) {
-
-            const salary =
-                projectedSalary(
-                    career,
-                    year
-                );
-
-            points.push({
-
-                year,
-
-                salary,
-
-                x: xForYear(year),
-
-                y: yForSalary(salary)
-
-            });
-        }
-
-
-        const path =
-            points
-                .map(
-                    (point, index) =>
-                        `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`
-                )
-                .join(" ");
-
-
-        // SVG has no guaranteed CSS palette from our stylesheet,
-        // so use a rotating set of classes and let CSS handle them.
-
-        const lineClass =
-            `career-line-${careerIndex + 1}`;
-
-
-        svg += `
-
-            <path
-                d="${path}"
-                fill="none"
-                class="${lineClass}"
-                stroke-width="4"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            />
-
-        `;
-
-
-        // Points
-
-        points.forEach(point => {
-
-            svg += `
-
-                <circle
-                    cx="${point.x}"
-                    cy="${point.y}"
-                    r="5"
-                    class="${lineClass}"
-                    stroke-width="2"
-                    tabindex="0"
-                >
-
-                    <title>
-                        ${escapeHTML(career.name)}
-                        — ${point.year}
-                        — ${formatFullSalary(point.salary)}
-                    </title>
-
-                </circle>
-
-            `;
-        });
-
-
-        // Current salary label
-
-        const firstPoint = points[0];
-
-        svg += `
-
-            <text
-                x="${firstPoint.x + 8}"
-                y="${firstPoint.y - 10}"
-                font-size="12"
-                font-weight="700"
-                fill="currentColor"
-                opacity="0.85"
-            >
-                ${escapeHTML(career.name)}
-            </text>
-
-        `;
-
-
-        // Keep growth variable used intentionally
-        void growth;
-    });
-
-
-    svg += `</svg>`;
-
-
-    // --------------------------------------------
-    // Legend
-    // --------------------------------------------
-
-    const legend =
-        selectedCareers
-            .map(
-                (career, index) => `
-
-                    <div
-                        class="graph-legend-item"
-                        style="
-                            display:flex;
-                            align-items:center;
-                            gap:8px;
-                        "
-                    >
-
-                        <span
-                            class="legend-dot career-line-${index + 1}"
-                            style="
-                                width:10px;
-                                height:10px;
-                                border-radius:50%;
-                                display:inline-block;
-                            "
-                        ></span>
-
-                        <span>
-                            ${escapeHTML(career.name)}
-                        </span>
+                            <div class="comparison-stat-value">
+                                +${formatSalary(increase)}
+                            </div>
+                        </div>
 
                     </div>
+                `;
 
-                `
-            )
-            .join("");
-
-
-    graph.innerHTML = `
-
-        <div
-            style="
-                width:100%;
-                overflow:hidden;
-            "
-        >
-
-            <div
-                style="
-                    min-width:650px;
-                    height:500px;
-                "
-            >
-                ${svg}
-            </div>
-
-            <div
-                class="graph-legend"
-                style="
-                    display:flex;
-                    flex-wrap:wrap;
-                    gap:18px;
-                    padding:15px 10px 5px;
-                    font-size:13px;
-                    opacity:.85;
-                "
-            >
-                ${legend}
-            </div>
-
-            <div
-                style="
-                    margin-top:12px;
-                    font-size:12px;
-                    opacity:.55;
-                    padding:0 10px 10px;
-                "
-            >
-                Estimated salary trend based on built-in salary
-                data and category-level growth assumptions.
-            </div>
+            }).join("")}
 
         </div>
     `;
 }
 
 
-// ============================================================
-// CLEAR COMPARISON
-// ============================================================
+/* =========================================================
+   GRAPH
+   ========================================================= */
+
+function updateGraph() {
+
+    const graphContainer = document.getElementById("salaryGraph");
+
+    if (!graphContainer) {
+        console.warn("salaryGraph was not found.");
+        return;
+    }
+
+
+    if (selectedCareers.length === 0) {
+
+        graphContainer.innerHTML = `
+            <div class="graph-empty">
+                <div>
+                    <h3>Select careers to see the salary graph</h3>
+                    <p>Choose up to 5 careers from the database above.</p>
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const width = 1000;
+    const height = 430;
+
+    const margin = {
+        top: 30,
+        right: 30,
+        bottom: 65,
+        left: 80
+    };
+
+
+    const chartWidth =
+        width - margin.left - margin.right;
+
+    const chartHeight =
+        height - margin.top - margin.bottom;
+
+
+    const allValues = [];
+
+    selectedCareers.forEach(career => {
+
+        graphYears.forEach(year => {
+
+            allValues.push(
+                projectedSalary(career, year)
+            );
+
+        });
+
+    });
+
+
+    let minValue = Math.min(...allValues);
+    let maxValue = Math.max(...allValues);
+
+
+    /*
+       Add padding so the lines aren't touching
+       the top or bottom of the graph.
+    */
+
+    const padding =
+        (maxValue - minValue) * 0.12 || 10000;
+
+    minValue -= padding;
+    maxValue += padding;
+
+
+    function xPosition(yearIndex) {
+
+        if (graphYears.length === 1) {
+            return margin.left + chartWidth / 2;
+        }
+
+        return (
+            margin.left +
+            (yearIndex / (graphYears.length - 1)) *
+            chartWidth
+        );
+    }
+
+
+    function yPosition(value) {
+
+        return (
+            margin.top +
+            chartHeight -
+            ((value - minValue) /
+                (maxValue - minValue)) *
+            chartHeight
+        );
+    }
+
+
+    function niceStep(range) {
+
+        const roughStep = range / 5;
+
+        const magnitude =
+            Math.pow(10, Math.floor(Math.log10(roughStep)));
+
+        const normalized =
+            roughStep / magnitude;
+
+
+        let niceNormalized;
+
+        if (normalized <= 1) {
+            niceNormalized = 1;
+        } else if (normalized <= 2) {
+            niceNormalized = 2;
+        } else if (normalized <= 5) {
+            niceNormalized = 5;
+        } else {
+            niceNormalized = 10;
+        }
+
+
+        return niceNormalized * magnitude;
+    }
+
+
+    const step = niceStep(maxValue - minValue);
+
+    const graphMin =
+        Math.floor(minValue / step) * step;
+
+    const graphMax =
+        Math.ceil(maxValue / step) * step;
+
+
+    function graphYPosition(value) {
+
+        return (
+            margin.top +
+            chartHeight -
+            ((value - graphMin) /
+                (graphMax - graphMin)) *
+            chartHeight
+        );
+    }
+
+
+    /*
+       Generate salary grid lines.
+    */
+
+    let gridLines = "";
+
+    for (
+        let value = graphMin;
+        value <= graphMax;
+        value += step
+    ) {
+
+        const y = graphYPosition(value);
+
+        gridLines += `
+            <line
+                x1="${margin.left}"
+                y1="${y}"
+                x2="${width - margin.right}"
+                y2="${y}"
+                stroke="rgba(255,255,255,0.08)"
+                stroke-width="1"
+            />
+
+            <text
+                x="${margin.left - 12}"
+                y="${y + 4}"
+                text-anchor="end"
+                fill="#9ba6b8"
+                font-size="12"
+            >
+                ${formatSalary(value)}
+            </text>
+        `;
+    }
+
+
+    /*
+       Generate years.
+    */
+
+    let yearLabels = "";
+
+    graphYears.forEach((year, index) => {
+
+        const x = xPosition(index);
+
+        yearLabels += `
+            <text
+                x="${x}"
+                y="${height - 25}"
+                text-anchor="middle"
+                fill="#9ba6b8"
+                font-size="12"
+            >
+                ${year}
+            </text>
+        `;
+
+    });
+
+
+    /*
+       Different colors for each selected career.
+
+       These are inline SVG colors rather than CSS classes,
+       which fixes the invisible-line issue.
+    */
+
+    const lineColors = [
+        "#8b5cf6",
+        "#3b82f6",
+        "#22c55e",
+        "#f59e0b",
+        "#ef4444"
+    ];
+
+
+    let paths = "";
+    let points = "";
+    let legend = "";
+
+
+    selectedCareers.forEach((career, careerIndex) => {
+
+        const color =
+            lineColors[careerIndex % lineColors.length];
+
+
+        const coordinates =
+            graphYears.map((year, yearIndex) => {
+
+                return {
+                    x: xPosition(yearIndex),
+                    y: graphYPosition(
+                        projectedSalary(career, year)
+                    )
+                };
+
+            });
+
+
+        const pathData =
+            coordinates.map((point, index) => {
+
+                return `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`;
+
+            }).join(" ");
+
+
+        paths += `
+            <path
+                d="${pathData}"
+                fill="none"
+                stroke="${color}"
+                stroke-width="4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            />
+        `;
+
+
+        coordinates.forEach((point, yearIndex) => {
+
+            const salary =
+                projectedSalary(
+                    career,
+                    graphYears[yearIndex]
+                );
+
+
+            points += `
+                <circle
+                    cx="${point.x}"
+                    cy="${point.y}"
+                    r="5"
+                    fill="${color}"
+                    stroke="#080b12"
+                    stroke-width="2"
+                >
+                    <title>
+                        ${career.name} — ${graphYears[yearIndex]}: ${formatSalary(salary)}
+                    </title>
+                </circle>
+            `;
+
+        });
+
+
+        legend += `
+            <div style="
+                display:flex;
+                align-items:center;
+                gap:8px;
+                font-size:13px;
+                color:#f4f7fb;
+            ">
+                <span style="
+                    width:12px;
+                    height:12px;
+                    border-radius:50%;
+                    background:${color};
+                    display:inline-block;
+                "></span>
+
+                ${escapeHTML(career.name)}
+            </div>
+        `;
+
+    });
+
+
+    graphContainer.innerHTML = `
+
+        <svg
+            viewBox="0 0 ${width} ${height}"
+            role="img"
+            aria-label="Estimated salary comparison graph"
+        >
+
+            ${gridLines}
+
+            <!-- X axis -->
+            <line
+                x1="${margin.left}"
+                y1="${margin.top + chartHeight}"
+                x2="${width - margin.right}"
+                y2="${margin.top + chartHeight}"
+                stroke="rgba(255,255,255,0.15)"
+                stroke-width="1"
+            />
+
+            ${yearLabels}
+
+            ${paths}
+
+            ${points}
+
+        </svg>
+
+        <div style="
+            display:flex;
+            flex-wrap:wrap;
+            gap:16px;
+            justify-content:center;
+            margin-top:12px;
+        ">
+            ${legend}
+        </div>
+
+        <p style="
+            margin:15px 0 0;
+            text-align:center;
+            color:#9ba6b8;
+            font-size:11px;
+        ">
+            Estimated salary trend based on built-in salary data
+            and category-level growth assumptions.
+        </p>
+    `;
+}
+
+
+/* =========================================================
+   CLEAR COMPARISON
+   ========================================================= */
 
 function clearComparison() {
 
     selectedCareers = [];
 
     displayCareers(currentCareers);
-
     updateComparison();
-
     updateGraph();
 }
 
 
-// ============================================================
-// QUICK SEARCH
-// ============================================================
+/* =========================================================
+   QUICK SEARCH
+   ========================================================= */
 
-function quickSearch(term) {
+function quickSearch(query) {
 
-    const input =
-        document.getElementById("searchInput");
+    const input = document.getElementById("careerSearch");
 
-    if (!input) return;
+    if (!input) {
+        return;
+    }
 
-    input.value = term;
+    input.value = query;
 
     searchCareers();
 
@@ -1112,103 +1072,403 @@ function quickSearch(term) {
         document.getElementById("careerDatabase");
 
     if (database) {
-
         database.scrollIntoView({
-            behavior: "smooth"
+            behavior: "smooth",
+            block: "start"
         });
     }
 }
 
 
-// ============================================================
-// CATEGORY FILTER
-// ============================================================
+/* =========================================================
+   AI CAREER ADVISOR
+   ========================================================= */
 
-function applyCategoryFilter(category) {
+let aiConversation = [];
 
-    if (!category || category === "All Careers") {
 
-        currentCareers = [...careers];
+function addAIMessage(type, message) {
 
-    } else {
+    const aiMessages =
+        document.getElementById("aiMessages");
 
-        currentCareers =
-            careers.filter(
-                career =>
-                    career.category === category
-            );
+    if (!aiMessages) {
+        return null;
     }
 
-    displayCareers(currentCareers);
+
+    const wrapper =
+        document.createElement("div");
+
+
+    wrapper.className =
+        type === "user"
+            ? "ai-message ai-message-user"
+            : "ai-message ai-message-bot";
+
+
+    const avatar =
+        document.createElement("div");
+
+    avatar.className = "ai-avatar";
+
+    avatar.textContent =
+        type === "user" ? "YOU" : "AI";
+
+
+    const bubble =
+        document.createElement("div");
+
+    bubble.className = "ai-bubble";
+
+
+    const name =
+        document.createElement("strong");
+
+    name.textContent =
+        type === "user"
+            ? "You"
+            : "CareerCompare AI";
+
+
+    const text =
+        document.createElement("p");
+
+    text.textContent = message;
+
+
+    bubble.appendChild(name);
+    bubble.appendChild(text);
+
+    wrapper.appendChild(avatar);
+    wrapper.appendChild(bubble);
+
+    aiMessages.appendChild(wrapper);
+
+
+    aiMessages.scrollTop =
+        aiMessages.scrollHeight;
+
+
+    return wrapper;
 }
 
 
-// ============================================================
-// CATEGORY BUILDER
-// ============================================================
+function addAIThinking() {
 
-function buildCategoryFilter() {
+    const aiMessages =
+        document.getElementById("aiMessages");
 
-    const select =
-        document.getElementById("categoryFilter");
-
-    if (!select) return;
-
-    const categories =
-        [...new Set(
-            careers.map(
-                career => career.category
-            )
-        )].sort();
+    if (!aiMessages) {
+        return null;
+    }
 
 
-    select.innerHTML = `
-        <option value="All Careers">
-            All Careers
-        </option>
+    const wrapper =
+        document.createElement("div");
+
+    wrapper.className =
+        "ai-message ai-message-bot";
+
+    wrapper.id =
+        "aiThinkingMessage";
+
+
+    wrapper.innerHTML = `
+        <div class="ai-avatar">AI</div>
+
+        <div class="ai-bubble">
+
+            <strong>CareerCompare AI</strong>
+
+            <div class="ai-thinking">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+        </div>
     `;
 
 
-    categories.forEach(category => {
+    aiMessages.appendChild(wrapper);
 
-        const option =
-            document.createElement("option");
+    aiMessages.scrollTop =
+        aiMessages.scrollHeight;
 
-        option.value = category;
 
-        option.textContent = category;
+    return wrapper;
+}
 
-        select.appendChild(option);
+
+/* =========================================================
+   SEND QUESTION TO BACKEND
+   ========================================================= */
+
+async function askAI(question) {
+
+    question =
+        String(question || "").trim();
+
+
+    if (!question) {
+        return;
+    }
+
+
+    const aiInput =
+        document.getElementById("aiInput");
+
+    const aiSendButton =
+        document.getElementById("aiSendButton");
+
+    const aiStatus =
+        document.getElementById("aiStatus");
+
+
+    addAIMessage(
+        "user",
+        question
+    );
+
+
+    aiConversation.push({
+        role: "user",
+        content: question
     });
+
+
+    if (aiInput) {
+        aiInput.value = "";
+    }
+
+
+    if (aiSendButton) {
+        aiSendButton.disabled = true;
+    }
+
+
+    if (aiStatus) {
+        aiStatus.textContent =
+            "● Thinking...";
+    }
+
+
+    const thinking =
+        addAIThinking();
+
+
+    try {
+
+        /*
+           IMPORTANT:
+
+           This is intentionally NOT an OpenRouter
+           request from the browser.
+
+           Your eventual backend will call OpenRouter
+           securely so your API key is not public.
+        */
+
+        const response =
+            await fetch("/api/ai", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    message: question,
+
+                    conversation:
+                        aiConversation,
+
+                    selectedCareers:
+                        selectedCareers.map(career => ({
+                            name: career.name,
+                            category: career.category,
+                            salary: career.salary
+                        }))
+
+                })
+
+            });
+
+
+        if (!response.ok) {
+
+            let errorMessage =
+                `Server error (${response.status})`;
+
+
+            try {
+
+                const errorData =
+                    await response.json();
+
+
+                if (errorData.error) {
+                    errorMessage =
+                        errorData.error;
+                }
+
+            } catch {
+                // Ignore invalid error response
+            }
+
+
+            throw new Error(errorMessage);
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.reply) {
+            throw new Error(
+                "The AI server returned no reply."
+            );
+        }
+
+
+        if (thinking) {
+            thinking.remove();
+        }
+
+
+        addAIMessage(
+            "assistant",
+            data.reply
+        );
+
+
+        aiConversation.push({
+            role: "assistant",
+            content: data.reply
+        });
+
+
+        if (aiStatus) {
+            aiStatus.textContent =
+                "● Connected";
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "CareerCompare AI error:",
+            error
+        );
+
+
+        if (thinking) {
+            thinking.remove();
+        }
+
+
+        addAIMessage(
+            "assistant",
+            "I couldn't connect to the AI server yet. The CareerCompare database and salary tools are still working. We'll connect the secure AI backend next."
+        );
+
+
+        if (aiStatus) {
+            aiStatus.textContent =
+                "● Offline";
+        }
+
+
+    } finally {
+
+        if (aiSendButton) {
+            aiSendButton.disabled = false;
+        }
+
+        if (aiInput) {
+            aiInput.focus();
+        }
+
+    }
 }
 
 
-// ============================================================
-// CAREER COUNT
-// ============================================================
+/* =========================================================
+   AI FORM
+   ========================================================= */
 
-function updateCareerCount() {
+function initializeAI() {
 
-    const count =
-        document.getElementById("careerCount");
+    const aiForm =
+        document.getElementById("aiForm");
 
-    if (!count) return;
+    const aiInput =
+        document.getElementById("aiInput");
 
-    count.textContent =
-        `${currentCareers.length} careers`;
+
+    if (!aiForm || !aiInput) {
+        return;
+    }
+
+
+    aiForm.addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+            const question =
+                aiInput.value.trim();
+
+
+            if (!question) {
+                return;
+            }
+
+
+            askAI(question);
+
+        }
+    );
 }
 
 
-// ============================================================
-// INITIALIZATION
-// ============================================================
+/*
+   Make askAI available to the inline
+   quick-question buttons in index.html.
+*/
+
+window.askAI = askAI;
+
+
+/* =========================================================
+   INITIALIZE EVERYTHING
+   ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
-    () => {
+    function() {
+
+        buildCategoryFilter();
+
+        displayCareers();
+
+        updateCareerCount();
+
+        updateComparison();
+
+        updateGraph();
+
+        initializeAI();
+
 
         const searchInput =
-            document.getElementById("searchInput");
+            document.getElementById("careerSearch");
+
 
         if (searchInput) {
 
@@ -1217,61 +1477,40 @@ document.addEventListener(
                 searchCareers
             );
 
-            searchInput.addEventListener(
-                "keydown",
-                event => {
-
-                    if (event.key === "Enter") {
-                        searchCareers();
-                    }
-
-                }
-            );
         }
 
 
         const categoryFilter =
             document.getElementById("categoryFilter");
 
-        if (categoryFilter) {
 
-            buildCategoryFilter();
+        if (categoryFilter) {
 
             categoryFilter.addEventListener(
                 "change",
-                () => {
-
-                    applyCategoryFilter(
-                        categoryFilter.value
-                    );
-
-                    updateCareerCount();
-                }
+                applyCategoryFilter
             );
+
         }
 
 
         const sortFilter =
             document.getElementById("sortFilter");
 
+
         if (sortFilter) {
 
             sortFilter.addEventListener(
                 "change",
-                () => {
-
-                    sortCareers(
-                        sortFilter.value
-                    );
-
-                    updateCareerCount();
-                }
+                sortCareers
             );
+
         }
 
 
         const clearButton =
             document.getElementById("clearComparison");
+
 
         if (clearButton) {
 
@@ -1279,20 +1518,8 @@ document.addEventListener(
                 "click",
                 clearComparison
             );
+
         }
-
-
-        // Initial display
-
-        displayCareers(careers);
-
-        updateComparison();
-
-        updateGraph();
-
-        buildCategoryFilter();
-
-        updateCareerCount();
 
     }
 );
