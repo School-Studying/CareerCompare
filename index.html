@@ -1,59 +1,390 @@
-<!-- AI CAREER ADVISOR -->
-<section class="feature-section ai-section" id="aiAdvisor">
-    <div class="section-heading">
-        <div>
-            <span class="eyebrow">AI POWERED</span>
-            <h2>CareerCompare AI Advisor</h2>
-            <p>Ask questions about careers, salaries, education, and career paths.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CareerCompare — Compare Careers & Salaries</title>
+
+    <meta
+        name="description"
+        content="Compare careers, salaries, career growth, education requirements, and more."
+    >
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="header-inner">
+
+            <a href="#" class="logo">
+                <span class="logo-icon">CC</span>
+                <span>CareerCompare</span>
+            </a>
+
+            <div class="data-status">
+                <span class="status-dot"></span>
+                Built-in salary data
+            </div>
+
         </div>
-        <span class="ai-status" id="aiStatus">● Ready</span>
-    </div>
+    </header>
 
-    <div class="ai-chat">
-        <div class="ai-messages" id="aiMessages">
-            <div class="ai-message ai-message-bot">
-                <div class="ai-avatar">AI</div>
-                <div class="ai-bubble">
-                    <strong>CareerCompare AI</strong>
+
+    <!-- MAIN -->
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-content">
+
+                <span class="eyebrow">CAREER RESEARCH MADE SIMPLE</span>
+
+                <h1>
+                    Compare careers.<br>
+                    <span>See your future.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Explore salaries, compare career paths, and see how earnings
+                    could grow over time.
+                </p>
+
+                <!-- SEARCH -->
+                <div class="search-wrapper">
+                    <span class="search-icon">⌕</span>
+
+                    <input
+                        type="text"
+                        id="careerSearch"
+                        placeholder="Search careers... e.g. Software Developer"
+                        autocomplete="off"
+                    >
+                </div>
+
+                <!-- QUICK SEARCH -->
+                <div class="quick-search">
+                    <span>Try:</span>
+
+                    <button onclick="quickSearch('Software Developer')">
+                        Software Developer
+                    </button>
+
+                    <button onclick="quickSearch('Teacher')">
+                        Teacher
+                    </button>
+
+                    <button onclick="quickSearch('Doctor')">
+                        Doctor
+                    </button>
+
+                    <button onclick="quickSearch('Engineer')">
+                        Engineer
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- CAREER DATABASE -->
+        <section class="feature-section" id="careerDatabase">
+
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">EXPLORE</span>
+                    <h2>Career Database</h2>
                     <p>
-                        Hey! 👋 I'm your CareerCompare advisor.
-                        Ask me something like:
+                        Search and select careers to compare them.
+                        You can compare up to 5 careers.
                     </p>
+                </div>
 
-                    <div class="ai-suggestions">
-                        <button onclick="askAI('What are some high-paying technology careers?')">
-                            💻 High-paying tech careers
-                        </button>
-
-                        <button onclick="askAI('Compare software developer and teacher.')">
-                            ⚖️ Software Developer vs Teacher
-                        </button>
-
-                        <button onclick="askAI('What careers can I get without a 4-year college degree?')">
-                            🎓 Careers without a 4-year degree
-                        </button>
-                    </div>
+                <div class="career-count" id="careerCount">
+                    0 careers
                 </div>
             </div>
+
+
+            <!-- FILTERS -->
+            <div class="filters">
+
+                <div class="filter-group">
+                    <label for="categoryFilter">Category</label>
+
+                    <select id="categoryFilter">
+                        <option value="all">All Categories</option>
+                    </select>
+                </div>
+
+
+                <div class="filter-group">
+                    <label for="sortFilter">Sort</label>
+
+                    <select id="sortFilter">
+                        <option value="name">Name</option>
+                        <option value="salary-high">
+                            Highest Salary
+                        </option>
+                        <option value="salary-low">
+                            Lowest Salary
+                        </option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <!-- CAREERS -->
+            <div id="careerList" class="career-list"></div>
+
+        </section>
+
+
+        <!-- COMPARISON -->
+        <section class="feature-section comparison-section" id="comparison">
+
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">COMPARE</span>
+                    <h2>Career Comparison</h2>
+
+                    <p>
+                        Select careers above to compare their salaries.
+                    </p>
+                </div>
+
+                <button
+                    class="secondary-button"
+                    id="clearComparison"
+                    type="button"
+                >
+                    Clear
+                </button>
+            </div>
+
+
+            <!-- SELECTED CAREERS -->
+            <div id="selectedCareers" class="selected-careers">
+                <div class="empty-state">
+                    <div class="empty-icon">⚖️</div>
+
+                    <h3>No careers selected</h3>
+
+                    <p>
+                        Choose careers from the database above to start comparing.
+                    </p>
+                </div>
+            </div>
+
+
+            <!-- STATS -->
+            <div id="comparisonStats" class="comparison-stats"></div>
+
+
+            <!-- GRAPH -->
+            <div class="graph-section">
+
+                <div class="graph-heading">
+                    <div>
+                        <h3>Estimated Salary Growth</h3>
+
+                        <p>
+                            Estimated earnings from 2026–2035.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="graph-container">
+                    <div id="salaryGraph">
+                        <div class="graph-empty">
+                            <div>
+                                <strong>Select careers to see the graph.</strong>
+                                <p>
+                                    Choose up to 5 careers from the database.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- AI CAREER ADVISOR -->
+        <section class="feature-section ai-section" id="aiAdvisor">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">AI POWERED</span>
+
+                    <h2>CareerCompare AI Advisor</h2>
+
+                    <p>
+                        Ask questions about careers, salaries, education,
+                        and career paths.
+                    </p>
+                </div>
+
+                <span class="ai-status" id="aiStatus">
+                    ● Ready
+                </span>
+
+            </div>
+
+
+            <div class="ai-chat">
+
+                <div class="ai-messages" id="aiMessages">
+
+                    <div class="ai-message ai-message-bot">
+
+                        <div class="ai-avatar">
+                            AI
+                        </div>
+
+                        <div class="ai-bubble">
+
+                            <strong>CareerCompare AI</strong>
+
+                            <p>
+                                Hey! 👋 I'm your CareerCompare advisor.
+                                Ask me something like:
+                            </p>
+
+
+                            <div class="ai-suggestions">
+
+                                <button
+                                    type="button"
+                                    onclick="askAI('What are some high-paying technology careers?')"
+                                >
+                                    💻 High-paying tech careers
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onclick="askAI('Compare software developer and teacher.')"
+                                >
+                                    ⚖️ Software Developer vs Teacher
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onclick="askAI('What careers can I get without a 4-year college degree?')"
+                                >
+                                    🎓 Careers without a 4-year degree
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <form
+                    class="ai-input-area"
+                    id="aiForm"
+                >
+
+                    <input
+                        type="text"
+                        id="aiInput"
+                        placeholder="Ask CareerCompare AI anything about careers..."
+                        autocomplete="off"
+                    >
+
+                    <button
+                        type="submit"
+                        id="aiSendButton"
+                    >
+                        <span>Ask AI</span>
+                        <span>➤</span>
+                    </button>
+
+                </form>
+
+
+                <div class="ai-disclaimer">
+                    AI answers are for informational purposes.
+                    Salary figures shown by CareerCompare may use
+                    built-in estimates until official data is connected.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- OFFICIAL DATA -->
+        <section class="feature-section official-section">
+
+            <div class="official-card">
+
+                <div class="official-icon">
+                    ✓
+                </div>
+
+                <div>
+                    <span class="eyebrow">OFFICIAL DATA</span>
+
+                    <h2>Keep salary information up to date</h2>
+
+                    <p>
+                        CareerCompare can use official U.S. Bureau of Labor
+                        Statistics data when the official data connection
+                        is enabled.
+                    </p>
+                </div>
+
+                <button
+                    class="primary-button"
+                    id="officialUpdateButton"
+                    type="button"
+                >
+                    Update Official Data
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+
+        <div class="footer-inner">
+
+            <div>
+                <strong>CareerCompare</strong>
+
+                <p>
+                    Explore careers. Compare salaries. Plan your future.
+                </p>
+            </div>
+
+            <div class="footer-note">
+                Salary figures are estimates for informational purposes.
+            </div>
+
         </div>
 
-        <form class="ai-input-area" id="aiForm">
-            <input
-                type="text"
-                id="aiInput"
-                placeholder="Ask CareerCompare AI anything about careers..."
-                autocomplete="off"
-            />
+    </footer>
 
-            <button type="submit" id="aiSendButton">
-                <span>Ask AI</span>
-                <span>➤</span>
-            </button>
-        </form>
 
-        <div class="ai-disclaimer">
-            AI answers are for informational purposes. Salary figures shown by
-            CareerCompare may use built-in estimates until official data is connected.
-        </div>
-    </div>
-</section>
+    <!-- JAVASCRIPT -->
+    <script src="./app.js" defer></script>
+
+</body>
+</html>
