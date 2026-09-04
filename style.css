@@ -1,0 +1,159 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0b1020;
+    color: white;
+}
+
+header {
+    padding: 25px 40px;
+    border-bottom: 1px solid #242b40;
+    background: #0e1427;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.logo span {
+    color: #6c8cff;
+}
+
+main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 50px 25px;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.hero h1 {
+    font-size: 52px;
+    margin: 0 0 15px;
+}
+
+.hero h1 span {
+    color: #6c8cff;
+}
+
+.hero p {
+    color: #aeb7cc;
+    font-size: 18px;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    max-width: 700px;
+    margin: 30px auto;
+}
+
+input {
+    flex: 1;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #303952;
+    background: #151c31;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+button {
+    padding: 14px 20px;
+    border: none;
+    border-radius: 12px;
+    background: #6c8cff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+.section-title {
+    margin-top: 45px;
+    margin-bottom: 20px;
+}
+
+.careers {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(220px, 1fr)
+    );
+    gap: 15px;
+}
+
+.career {
+    background: #151c31;
+    border: 1px solid #29324a;
+    border-radius: 16px;
+    padding: 22px;
+    transition: 0.2s;
+}
+
+.career:hover {
+    transform: translateY(-3px);
+    border-color: #6c8cff;
+}
+
+.career h3 {
+    margin: 0 0 10px;
+}
+
+.category {
+    color: #8d9abb;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.salary {
+    font-size: 28px;
+    font-weight: 800;
+    color: #6c8cff;
+}
+
+.salary-label {
+    color: #8993ab;
+    font-size: 13px;
+}
+
+footer {
+    text-align: center;
+    padding: 40px;
+    color: #68738d;
+}
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 20px;
+    }
+
+    main {
+        padding: 35px 15px;
+    }
+
+    .hero h1 {
+        font-size: 38px;
+    }
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+}
