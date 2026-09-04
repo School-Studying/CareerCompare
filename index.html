@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CareerCompare</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0b1020;
+            color: white;
+        }
+
+        header {
+            padding: 25px 40px;
+            border-bottom: 1px solid #242b40;
+            background: #0e1427;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #6c8cff;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: auto;
+            padding: 50px 25px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            margin: 0 0 15px;
+        }
+
+        .hero h1 span {
+            color: #6c8cff;
+        }
+
+        .hero p {
+            color: #aeb7cc;
+            font-size: 18px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            max-width: 700px;
+            margin: 30px auto;
+        }
+
+        input {
+            flex: 1;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid #303952;
+            background: #151c31;
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        button {
+            padding: 14px 20px;
+            border: none;
+            border-radius: 12px;
+            background: #6c8cff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .section-title {
+            margin-top: 45px;
+            margin-bottom: 20px;
+        }
+
+        .careers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .career {
+            background: #151c31;
+            border: 1px solid #29324a;
+            border-radius: 16px;
+            padding: 22px;
+            transition: 0.2s;
+        }
+
+        .career:hover {
+            transform: translateY(-3px);
+            border-color: #6c8cff;
+        }
+
+        .career h3 {
+            margin: 0 0 10px;
+        }
+
+        .category {
+            color: #8d9abb;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .salary {
+            font-size: 28px;
+            font-weight: 800;
+            color: #6c8cff;
+        }
+
+        .salary-label {
+            color: #8993ab;
+            font-size: 13px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #68738d;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        Career<span>Compare</span>
+    </div>
+</header>
+
+<main>
+
+    <section class="hero">
+        <h1>Compare Your <span>Future</span></h1>
+
+        <p>
+            Explore careers, compare salaries, and see what your future could look like.
+        </p>
+
+        <div class="search-box">
+            <input
+                id="searchInput"
+                type="text"
+                placeholder="Search careers..."
+            >
+
+            <button onclick="searchCareers()">
+                Search
+            </button>
+        </div>
+    </section>
+
+    <h2 class="section-title">
+        Popular Careers
+    </h2>
+
+    <section id="careerList" class="careers"></section>
+
+</main>
+
+<footer>
+    CareerCompare — Explore. Compare. Plan your future.
+</footer>
+
+<script>
+
+const careers = [
+    {
+        name: "Software Developer",
+        category: "Technology",
+        salary: 133000
+    },
+    {
+        name: "Registered Nurse",
+        category: "Healthcare",
+        salary: 93000
+    },
+    {
+        name: "Elementary School Teacher",
+        category: "Education",
+        salary: 73000
+    },
+    {
+        name: "Secondary School Teacher",
+        category: "Education",
+        salary: 76000
+    },
+    {
+        name: "Electrician",
+        category: "Trades",
+        salary: 68000
+    },
+    {
+        name: "Accountant",
+        category: "Business",
+        salary: 86000
+    },
+    {
+        name: "Physician",
+        category: "Healthcare",
+        salary: 240000
+    },
+    {
+        name: "Mechanical Engineer",
+        category: "Engineering",
+        salary: 102000
+    },
+    {
+        name: "Civil Engineer",
+        category: "Engineering",
+        salary: 99000
+    },
+    {
+        name: "Graphic Designer",
+        category: "Arts & Design",
+        salary: 62000
+    }
+];
+
+function formatSalary(amount) {
+    return "$" + Math.round(amount / 1000) + "K";
+}
+
+function displayCareers(list) {
+
+    const container = document.getElementById("careerList");
+
+    container.innerHTML = "";
+
+    if (list.length === 0) {
+        container.innerHTML = `
+            <p>No careers found.</p>
+        `;
+        return;
+    }
+
+    list.forEach(career => {
+
+        const card = document.createElement("div");
+
+        card.className = "career";
+
+        card.innerHTML = `
+            <h3>${career.name}</h3>
+
+            <div class="category">
+                ${career.category}
+            </div>
+
+            <div class="salary">
+                ${formatSalary(career.salary)}
+            </div>
+
+            <div class="salary-label">
+                Average annual salary
+            </div>
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+function searchCareers() {
+
+    const search =
+        document
+            .getElementById("searchInput")
+            .value
+            .toLowerCase()
+            .trim();
+
+    const filtered = careers.filter(career =>
+        career.name.toLowerCase().includes(search) ||
+        career.category.toLowerCase().includes(search)
+    );
+
+    displayCareers(filtered);
+}
+
+document
+    .getElementById("searchInput")
+    .addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+            searchCareers();
+        }
+
+    });
+
+displayCareers(careers);
+
+</script>
+
+</body>
+</html>
