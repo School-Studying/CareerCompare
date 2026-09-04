@@ -1271,8 +1271,7 @@ async function askAI(question) {
         */
 
         const response =
-            await fetch("/api/ai", {
-
+            await fetch("https://career-compare-sooty.vercel.app/api/ai", {
                 method: "POST",
 
                 headers: {
